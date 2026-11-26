@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <title data-brand-title="Configuração inicial">Configuração inicial | Clínica Podológica</title>
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="auth-page" data-page="setup">
+  <main class="auth-layout">
+    <section class="auth-brand">
+      <a class="brand brand-light" href="/"><img src="/assets/brand-mark.svg" width="40" height="40" alt=""><span data-brand="productName">SGCP</span></a>
+      <div><p class="eyebrow">Primeiro acesso</p><h1>Configure a conta da podóloga proprietária.</h1><p>Esta conta administra o sistema e pode criar os demais acessos da equipe.</p></div>
+      <a class="back-link back-link-light" href="/">← Voltar ao site</a>
+    </section>
+    <section class="auth-card-wrap">
+      <form class="auth-card" id="setupForm">
+        <p class="eyebrow">Configuração segura</p>
+        <h2>Criar conta proprietária</h2>
+        <label for="setupName">Nome</label><input id="setupName" required maxlength="120" autocomplete="name">
+        <label for="setupRegistration">Registro profissional</label><input id="setupRegistration" required maxlength="30" placeholder="Ex.: registro profissional">
+        <label for="setupEmail">E-mail</label><input id="setupEmail" required type="email" maxlength="160" autocomplete="email">
+        <label for="setupPassword">Senha</label><input id="setupPassword" required type="password" minlength="10" maxlength="128" autocomplete="new-password">
+        <p class="form-message" id="setupMessage" role="alert" aria-live="polite"></p>
+        <button class="button button-primary button-full" type="submit">Configurar e entrar</button>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/script.js"></script>
+  <script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body>
+</html>

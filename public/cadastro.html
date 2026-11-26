@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <title data-brand-title="Criar conta">Criar conta | Clínica Podológica</title>
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="auth-page" data-page="cadastro">
+  <main class="auth-layout">
+    <section class="auth-brand">
+      <a class="brand brand-light" href="/"><img src="/assets/brand-mark.svg" width="40" height="40" alt=""><span data-brand="productName">SGCP</span></a>
+      <div><p class="eyebrow">Portal do paciente</p><h1>Organize suas consultas em um só lugar.</h1><p>Crie sua conta para escolher serviços, consultar horários disponíveis e acompanhar seus agendamentos.</p></div>
+      <a class="back-link back-link-light" href="/">← Voltar ao site</a>
+    </section>
+    <section class="auth-card-wrap">
+      <form class="auth-card form-grid" id="patientRegister">
+        <div class="form-span"><p class="eyebrow">Novo cadastro</p><h2>Criar conta de paciente</h2><p class="muted">Para criar seu acesso, precisamos apenas de e-mail, CPF e senha. Os dados de atendimento serão pedidos antes de agendar. Se já é paciente da clínica, fale com a recepção para vincular seu acesso.</p></div>
+        <div class="field"><label for="registerCpf">CPF</label><input id="registerCpf" required maxlength="14" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00"></div>
+        <div class="field form-span"><label for="registerEmail">E-mail</label><input id="registerEmail" required maxlength="160" type="email" autocomplete="email"></div>
+        <div class="field form-span"><label for="registerPassword">Senha</label><input id="registerPassword" required minlength="10" maxlength="128" type="password" autocomplete="new-password"><small>Use pelo menos 10 caracteres.</small></div>
+        <div class="field form-span"><label for="registerAgeGroup">Este acesso é para quem?</label><select id="registerAgeGroup" required aria-describedby="ageGroupHelp"><option value="">Selecione a faixa etária</option><option value="ADULTO">Pessoa com 18 anos ou mais</option><option value="MENOR">Menor de 18 anos, com autorização da mãe ou do pai</option></select><small id="ageGroupHelp">Esta declaração permite exigir a autorização dos pais sem pedir sua data de nascimento agora.</small></div>
+        <section class="guardian-fields form-span" id="registerGuardianFields" hidden aria-labelledby="registerGuardianTitle">
+          <h3 id="registerGuardianTitle">Cadastro de menor de 18 anos</h3>
+          <p>O cadastro de uma criança ou adolescente só pode ser feito com autorização específica da mãe ou do pai.</p>
+          <div class="field"><label for="registerGuardianRelationship">Quem autoriza?</label><select id="registerGuardianRelationship"><option value="">Selecione</option><option value="MAE">Mãe</option><option value="PAI">Pai</option></select></div>
+          <div class="form-row"><div class="field"><label for="registerGuardianName">Nome do responsável</label><input id="registerGuardianName" maxlength="120" autocomplete="name"></div><div class="field"><label for="registerGuardianCpf">CPF do responsável</label><input id="registerGuardianCpf" maxlength="14" inputmode="numeric" placeholder="000.000.000-00" autocomplete="off"></div></div>
+          <label class="privacy-accept"><input id="registerGuardianConsent" type="checkbox"><span>Declaro ser a mãe ou o pai e autorizo o cadastro ou atualização dos dados do menor e o tratamento necessário para acesso ao portal e organização do atendimento, conforme o <a href="/privacidade.html" target="_blank" rel="noopener">Aviso de Privacidade 2026-11-v4</a>.</span></label>
+        </section>
+        <details class="privacy-notice form-span">
+          <summary>Como seus dados serão tratados</summary>
+          <p>A clínica responsável pelo seu atendimento usa os dados informados para criar sua conta, identificar você, organizar consultas e prestar os serviços podológicos solicitados. Informações de saúde fornecidas durante o atendimento são usadas para orientar e registrar o cuidado.</p>
+          <p>Os dados ficam protegidos por controles de acesso e podem ser tratados por fornecedores necessários para operar o sistema. Não são vendidos. Você pode pedir acesso, correção ou informações sobre seus dados pelo <a href="/ajuda.html#contato" data-contact-link>canal de atendimento da clínica</a>.</p>
+          <a href="/privacidade.html" target="_blank" rel="noopener">Leia o Aviso de Privacidade completo</a>
+        </details>
+        <label class="privacy-accept form-span"><input id="privacyNoticeAccepted" type="checkbox" required><span>Li e estou ciente do <a href="/privacidade.html" target="_blank" rel="noopener">Aviso de Privacidade</a>.</span></label>
+        <label class="privacy-accept form-span"><input id="termsAccepted" type="checkbox" required value="2026-11-v2"><span>Li e aceito os <a href="/termos.html" target="_blank" rel="noopener">Termos de Uso (versão 2026-11-v2)</a>.</span></label>
+        <p class="form-message form-span" id="registerMessage" role="alert" aria-live="polite"></p>
+        <button class="button button-primary button-full form-span" type="submit">Criar conta</button>
+        <p class="auth-foot form-span">Já possui conta? <a href="/login.html">Entrar</a></p>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/script.js"></script>
+  <script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body>
+</html>

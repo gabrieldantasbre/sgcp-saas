@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <title data-brand-title="Gestão da clínica">Gestão da clínica | Clínica Podológica</title>
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/module-views.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="internal-page" data-page="interno">
+  <div class="internal-shell">
+    <button class="internal-menu-backdrop" id="internalMenuBackdrop" type="button" aria-label="Fechar menu" tabindex="-1" hidden></button>
+    <aside class="internal-sidebar" id="internalSidebar" aria-label="Menu do sistema">
+      <button class="icon-button mobile-menu-close" id="closeInternalMenu" type="button" aria-label="Fechar menu"><span data-admin-icon="close"></span></button>
+      <a class="brand brand-light internal-brand" href="/interno.html" title="Sistema de Gestão de Clínica Podológica"><img src="/assets/brand-mark.svg" alt="" width="40" height="40"><span><strong data-brand="productName">SGCP</strong><small data-brand="clinicName">Clínica Podológica</small></span></a>
+      <nav class="internal-nav" id="internalNav" aria-label="Módulos do sistema">
+        <p class="nav-group-label" data-permission-any="dashboard,agenda,pacientes,atendimento">Visão geral</p>
+        <button class="nav-item active" data-tab="dashboard" data-permission="dashboard"><span>◫</span> Dashboard</button>
+        <button class="nav-item" data-tab="agenda" data-permission="agenda"><span>▦</span> Agenda</button>
+        <button class="nav-item" data-tab="pacientes" data-permission="pacientes"><span>♙</span> Pacientes</button>
+        <button class="nav-item" data-tab="atendimento" data-permission="atendimento"><span>▤</span> Atendimento</button>
+        <p class="nav-group-label" data-permission-any="receitas,despesas,estoque,relatorio_estoque,relatorio_financeiro">Gestão</p>
+        <button class="nav-item" data-tab="financeiro" data-permission-any="receitas,despesas"><span>◎</span> Financeiro</button>
+        <button class="nav-item" data-tab="estoque" data-permission="estoque"><span>⬡</span> Estoque</button>
+        <button class="nav-item" data-tab="relatorios" data-permission-any="relatorio_estoque,relatorio_financeiro"><span>▥</span> Relatórios</button>
+        <p class="nav-group-label" data-owner-only>Administração</p>
+        <button class="nav-item" data-tab="usuarios" data-owner-only><span>♧</span> Usuários</button>
+        <button class="nav-item" data-tab="servicos" data-owner-only><span>▧</span> Serviços</button>
+        <button class="nav-item" data-tab="logs" data-owner-only><span>≋</span> Logs do sistema</button>
+        <a class="nav-item mobile-site-link" href="/" target="_blank" rel="noopener"><span data-admin-icon="external"></span>Ver site</a>
+        <a class="nav-item" href="/ajuda.html?publico=equipe"><span aria-hidden="true">?</span>Central de ajuda</a>
+      </nav>
+      <div class="sidebar-user">
+        <span class="avatar" id="userInitials">SG</span>
+        <span class="sidebar-user-text"><strong id="internalUserName">Carregando…</strong><small id="internalUserRole"></small></span>
+        <button class="icon-button" id="logoutButton" type="button" title="Sair" aria-label="Sair">↪</button>
+      </div>
+    </aside>
+
+    <main class="internal-main">
+      <header class="internal-topbar">
+        <div class="mobile-topbar-brand"><button class="icon-button mobile-menu-toggle" id="openInternalMenu" type="button" aria-label="Abrir menu" aria-controls="internalSidebar" aria-expanded="false"><span data-admin-icon="menu"></span></button><a class="brand" href="/interno.html"><img src="/assets/brand-mark.svg" width="34" height="34" alt=""><span><span data-brand="productName">SGCP</span><small data-brand="clinicName">Clínica Podológica</small></span></a></div>
+        <span class="topbar-system-name">Sistema de gestão</span>
+        <div class="global-search" id="globalSearchWrap">
+          <label class="global-search-field" for="globalSearchInput"><span aria-hidden="true">⌕</span><input id="globalSearchInput" type="search" autocomplete="off" placeholder="Buscar pacientes, consultas, serviços…" aria-label="Pesquisa geral" aria-controls="globalSearchResults"></label>
+          <div class="global-search-results" id="globalSearchResults" role="listbox" hidden></div>
+        </div>
+        <a class="topbar-site-link" href="/" target="_blank" rel="noopener"><span data-admin-icon="external"></span>Ver site</a>
+        <div class="topbar-account"><div class="notifications-container" data-permission="agenda"><button id="notificationToggle" class="icon-button topbar-notifications" type="button" aria-label="Notificações da agenda" aria-controls="notificationPanel" aria-expanded="false"><span data-admin-icon="bell"></span><i id="notificationDot" hidden></i></button><section id="notificationPanel" class="notification-panel" aria-labelledby="notificationTitle" hidden><div class="notification-heading"><div><h2 id="notificationTitle">Notificações</h2><p id="notificationCount" role="status">Solicitações de consulta</p></div><button id="refreshNotifications" class="text-button" type="button">Atualizar</button></div><div id="notificationList" class="notification-list" aria-live="polite"></div></section></div><span class="avatar" id="topbarInitials">SG</span><span class="topbar-account-copy"><strong id="topbarUserName">Carregando…</strong><small>Clínica</small></span></div>
+      </header>
+      <div class="internal-workspace">
+      <div class="internal-page-heading"><div><p class="eyebrow" id="internalEyebrow">Visão geral</p><h1 id="internalTitle" tabindex="-1">Dashboard</h1><p class="muted" id="internalSubtitle">Acompanhe a rotina e os indicadores da sua clínica.</p></div><div class="heading-actions"><span class="today-label"><span data-admin-icon="calendar"></span><span id="internalDate"></span></span><button class="button button-primary" type="button" data-go="agenda" data-permission="agenda"><span data-admin-icon="plus"></span>Nova consulta</button></div></div>
+
+      <section class="internal-panel active" id="internal-dashboard" data-permission="dashboard">
+        <div class="metric-grid" id="overviewStats"></div>
+        <div class="dashboard-grid">
+        <div class="content-card dashboard-appointments" data-permission="agenda">
+          <div class="card-heading"><div><h2>Próximas consultas</h2><p class="small-note">Acompanhe os próximos atendimentos.</p></div><button class="text-button" data-go="agenda">Ver agenda <span data-admin-icon="arrow"></span></button></div>
+          <div id="overviewAppointments" class="table-wrap"></div>
+        </div>
+        <div class="content-card dashboard-quick-actions" data-permission-any="pacientes,agenda,receitas"><div class="card-heading"><div><h2>Ações rápidas</h2><p class="small-note">Acesse as tarefas mais utilizadas.</p></div></div><button class="quick-action" type="button" data-go="pacientes" data-permission="pacientes"><span class="quick-action-icon" data-admin-icon="patients"></span><strong>Cadastrar paciente</strong><span data-admin-icon="chevron"></span></button><button class="quick-action" type="button" data-go="agenda" data-permission="agenda"><span class="quick-action-icon" data-admin-icon="calendar"></span><strong>Agendar consulta</strong><span data-admin-icon="chevron"></span></button><button class="quick-action" type="button" data-go="financeiro" data-permission="receitas"><span class="quick-action-icon" data-admin-icon="wallet"></span><strong>Registrar pagamento</strong><span data-admin-icon="chevron"></span></button></div>
+        <div class="content-card dashboard-activity" data-permission="agenda"><div class="card-heading"><div><h2>Resumo de atividade</h2><p class="small-note">Consultas agendadas</p></div><small class="muted">Últimos 7 dias</small></div><div id="dashboardActivity" class="dashboard-chart" aria-live="polite"></div></div>
+        <div class="content-card dashboard-pending" data-permission-any="agenda,estoque"><div class="card-heading"><h2>Pendências da clínica</h2></div><button type="button" class="pending-row" data-go="agenda" data-permission="agenda"><span>Confirmações de consulta</span><strong id="pendingAppointments">0</strong></button><button type="button" class="pending-row" data-go="estoque" data-permission="estoque"><span>Produtos abaixo do mínimo</span><strong id="pendingStock">0</strong></button><p id="pendingSummary" class="small-note">Carregando pendências…</p></div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-agenda" data-permission="agenda" hidden>
+        <div class="content-card agenda-calendar-card">
+          <div class="card-heading agenda-calendar-heading">
+            <div><p class="eyebrow">Visão mensal</p><h2>Calendário de consultas</h2></div>
+            <div class="agenda-calendar-controls">
+              <div class="calendar-view-switch" role="group" aria-label="Visualização da agenda">
+                <button class="calendar-view-button" type="button" data-calendar-view="day" aria-pressed="false">Dia</button>
+                <button class="calendar-view-button" type="button" data-calendar-view="week" aria-pressed="false">Semana</button>
+                <button class="calendar-view-button active" type="button" data-calendar-view="month" aria-pressed="true">Mês</button>
+              </div>
+              <button class="button button-outline button-small" id="calendarPrevious" type="button" aria-label="Mês anterior">←</button>
+              <strong id="calendarMonthLabel" aria-live="polite"></strong>
+              <button class="button button-outline button-small" id="calendarNext" type="button" aria-label="Próximo mês">→</button>
+              <button class="button button-outline button-small" id="calendarToday" type="button">Hoje</button>
+            </div>
+          </div>
+          <div class="agenda-calendar-weekdays" aria-hidden="true"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+          <div class="agenda-calendar-grid" id="agendaCalendarGrid" role="grid" aria-label="Calendário mensal de consultas"></div>
+          <div class="agenda-calendar-legend" aria-label="Legenda de feriados"><span><i class="legend-holiday"></i>Feriado nacional</span></div>
+          <div class="agenda-calendar-legend" aria-label="Legenda da situação das consultas"><span><i class="legend-pending"></i>Aguardando confirmação</span><span><i class="legend-confirmed"></i>Confirmada</span><span><i class="legend-done"></i>Realizada</span><span><i class="legend-cancelled"></i>Cancelada ou faltou</span></div>
+          <div class="calendar-day-details" id="calendarDayDetails">
+            <div class="calendar-day-heading"><h3 id="calendarSelectedDate">Consultas do dia</h3><span id="calendarDayCount" class="muted"></span></div>
+            <p class="calendar-holiday-note" id="calendarDayHoliday" hidden></p>
+            <div id="calendarDayAppointments" class="table-wrap"><p class="empty">Selecione um dia para ver as consultas.</p></div>
+          </div>
+        </div>
+        <div class="two-column">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Recepção</p><h2>Novo agendamento</h2></div></div>
+            <form id="appointmentForm" class="form-stack">
+              <label>Paciente<select id="bookingPatient" required></select></label>
+              <div class="form-row"><label>Serviço<select id="bookingProcedure" required></select></label><label>Pedido feito por<select id="bookingOrigin"><option value="PRESENCIAL">Presencial</option><option value="WHATSAPP">WhatsApp</option></select></label></div>
+              <div class="form-row"><label>Tipo<select id="bookingType"><option value="CONSULTA">Consulta</option><option value="RETORNO">Retorno</option></select></label><label>Data<input id="bookingDate" type="date" required></label></div>
+              <label>Horário livre<select id="bookingTime" required><option value="">Escolha a data e o serviço</option></select></label>
+              <label>Observação<input id="bookingNote" maxlength="255" placeholder="Ex.: retorno, trazer exames"></label>
+              <p class="form-message" id="appointmentMessage" role="status" aria-live="polite"></p>
+              <div id="appointmentSuggestions" class="booking-suggestions" aria-live="polite"></div>
+              <button class="button button-primary" type="submit">Agendar consulta</button>
+            </form>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Consultas registradas</p><h2>Agenda</h2></div></div>
+            <div class="filter-row"><label>De<input id="agendaDateFrom" type="date"></label><label>Até<input id="agendaDateTo" type="date"></label><button class="button button-outline button-small" id="refreshAgenda" type="button">Atualizar</button></div>
+            <div id="appointmentList" class="table-wrap"></div>
+          </div>
+        </div>
+        <div class="two-column agenda-tools-grid">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Disponibilidade</p><h2>Bloquear horários</h2><p class="small-note">O bloqueio impede novos agendamentos nos horários selecionados.</p></div></div>
+            <form id="agendaBlockForm" class="form-stack">
+              <label>Data<input id="agendaBlockDate" type="date" required></label>
+              <div class="form-row"><label>De<input id="agendaBlockStart" type="time" required></label><label>Até<input id="agendaBlockEnd" type="time" required></label></div>
+              <label>Motivo (opcional)<input id="agendaBlockReason" maxlength="160" placeholder="Ex.: compromisso da clínica"></label>
+              <p class="form-message" id="agendaBlockMessage" role="status" aria-live="polite"></p>
+              <button class="button button-primary" type="submit">Criar bloqueio</button>
+            </form>
+            <div id="agendaBlockList" class="agenda-block-list"></div>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Agendamento on-line</p><h2>Link para pacientes</h2><p class="small-note">Compartilhe o link para solicitar um horário disponível.</p></div></div>
+            <label>Endereço do link<input id="bookingShareUrl" type="url" readonly></label>
+            <div class="inline-actions agenda-share-actions"><button class="button button-primary" id="copyBookingLink" type="button">Copiar link</button><a class="button button-outline" id="openBookingLink" href="/agendar.html" target="_blank" rel="noopener">Ver como paciente</a></div>
+            <p class="small-note">Os pedidos feitos pelo link ficam aguardando confirmação da clínica.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-pacientes" data-permission="pacientes" hidden>
+        <div class="two-column">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Cadastro</p><h2 id="patientFormTitle">Novo paciente</h2></div><button class="text-button" id="clearPatientForm" type="button">Limpar</button></div>
+            <form id="patientForm" class="form-stack">
+              <input type="hidden" id="patientId">
+              <label>Nome completo<input id="patientName" required maxlength="120"></label>
+              <div class="form-row"><label>CPF<input id="patientCpf" required maxlength="14" inputmode="numeric" placeholder="000.000.000-00"></label><label>Nascimento<input id="patientBirth" type="date" required></label></div>
+              <section class="guardian-fields" id="staffGuardianFields" hidden aria-labelledby="staffGuardianTitle">
+                <label>Quem autoriza?<select id="staffGuardianRelationship"><option value="">Selecione</option><option value="MAE">Mãe</option><option value="PAI">Pai</option></select></label>
+                <h3 id="staffGuardianTitle">Consentimento do responsável</h3>
+                <p class="small-note">Para cadastrar uma pessoa menor de 18 anos, registre a autorização específica da mãe ou do pai.</p>
+                <div class="form-row"><label>Nome do responsável<input id="staffGuardianName" maxlength="120" autocomplete="name"></label><label>CPF do responsável<input id="staffGuardianCpf" maxlength="14" inputmode="numeric" placeholder="000.000.000-00"></label></div>
+                <label class="check-row"><input id="staffGuardianConsent" type="checkbox"><span>A mãe ou o pai identificado autorizou o cadastro ou atualização dos dados do menor e o tratamento necessário para acesso ao portal e organização do atendimento, conforme o Aviso de Privacidade 2026-11-v4.</span></label>
+              </section>
+              <label>Celular<input id="patientPhone" type="tel" maxlength="20"></label>
+              <label>E-mail<input id="patientEmail" type="email" maxlength="160"></label>
+              <label>Endereço<input id="patientAddress" maxlength="200"></label>
+              <p class="form-message" id="patientMessage" role="status" aria-live="polite"></p>
+              <button class="button button-primary" type="submit">Salvar paciente</button>
+            </form>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Base da clínica</p><h2>Pacientes cadastrados</h2></div></div>
+            <label class="search-field"><span>⌕</span><input id="patientSearch" placeholder="Buscar por nome ou CPF"></label>
+            <div id="patientsTable" class="table-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-atendimento" data-permission="atendimento" hidden>
+        <div class="two-column">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Ficha de saúde</p><h2>Anamnese</h2></div></div>
+            <form id="anamnesisForm" class="form-stack">
+              <label>Paciente<select id="anamnesisPatient" required></select></label>
+              <label>Queixa principal<textarea id="anamnesisComplaint" rows="2"></textarea></label>
+              <div class="check-grid"><label class="check-row"><input id="anamnesisDiabetes" type="checkbox"><span>Diabetes</span></label><label class="check-row"><input id="anamnesisHypertension" type="checkbox"><span>Hipertensão</span></label><label class="check-row"><input id="anamnesisCirculation" type="checkbox"><span>Problema circulatório</span></label></div>
+              <label>Alergias<textarea id="anamnesisAllergies" rows="2"></textarea></label>
+              <label>Medicamentos em uso<textarea id="anamnesisMedication" rows="2"></textarea></label>
+              <label>Cirurgias anteriores<textarea id="anamnesisSurgeries" rows="2"></textarea></label>
+              <label>Tipo de calçado<input id="anamnesisShoes" maxlength="100"></label>
+              <label>Observações<textarea id="anamnesisNotes" rows="2"></textarea></label>
+              <p class="form-message" id="anamnesisMessage" role="status" aria-live="polite"></p>
+              <button class="button button-primary" type="submit">Salvar ficha de saúde</button>
+            </form>
+            <div id="anamnesisHistory" class="history-list"></div>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Prontuário</p><h2>Registrar atendimento</h2></div></div>
+            <form id="treatmentForm" class="form-stack">
+              <label>Paciente<select id="carePatient" required></select></label>
+              <label>Agendamento relacionado<select id="careAppointment"><option value="">Atendimento sem agendamento</option></select></label>
+              <div class="form-row"><label>Procedimento<select id="careProcedure" required></select></label><label>Valor final (R$)<input id="careValue" type="number" min="0" step="0.01" required></label></div>
+              <label>Queixa do dia<textarea id="careComplaint" rows="2"></textarea></label>
+              <label>Evolução do caso<textarea id="careEvolution" rows="3"></textarea></label>
+              <label>Orientações pós-atendimento<textarea id="careAdvice" rows="3"></textarea></label>
+              <p class="small-note">O valor lançado fica a receber. A recepção registra o pagamento no mesmo dia.</p>
+              <p class="form-message" id="treatmentMessage" role="status" aria-live="polite"></p>
+              <button class="button button-primary" type="submit">Salvar atendimento</button>
+            </form>
+            <div class="card-heading sub-heading"><div><p class="eyebrow">Histórico</p><h2>Atendimentos recentes</h2></div></div>
+            <div id="treatmentHistory" class="table-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-financeiro" data-permission-any="receitas,despesas" hidden>
+        <div class="subnav" role="tablist">
+          <button class="subnav-button active" data-finance-tab="receitas" data-permission="receitas" role="tab" aria-selected="true">Receitas</button>
+          <button class="subnav-button" data-finance-tab="despesas" data-permission="despesas" role="tab" aria-selected="false">Despesas e contas a pagar</button>
+        </div>
+        <div id="finance-receitas" class="finance-panel active" data-permission="receitas">
+          <div class="two-column">
+            <div class="content-card">
+              <div class="card-heading"><div><p class="eyebrow">Lançamento</p><h2>Nova receita</h2></div></div>
+              <form id="revenueForm" class="form-stack">
+                <label>Descrição<input id="revenueDescription" required maxlength="150"></label>
+                <div class="form-row"><label>Categoria<select id="revenueCategory"><option>Outras receitas</option><option>Venda de produto</option></select></label><label>Paciente (opcional)<select id="revenuePatient"></select></label></div>
+                <div class="form-row"><label>Valor (R$)<input id="revenueAmount" type="number" min="0.01" step="0.01" required></label><label>Situação<select id="revenueStatus"><option value="PENDENTE">A receber</option><option value="PAGO">Pago hoje</option></select></label></div>
+                <label>Forma de pagamento (para pago hoje)<select id="revenueMethod"><option value="">Selecione</option><option value="PIX">Pix</option><option value="CARTAO_CREDITO">Cartão de crédito</option><option value="CARTAO_DEBITO">Cartão de débito</option><option value="DINHEIRO">Dinheiro</option><option value="BOLETO">Boleto</option><option value="TRANSFERENCIA">Transferência</option></select></label>
+                <p class="form-message" id="revenueMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Registrar receita</button>
+              </form>
+            </div>
+            <div class="content-card">
+              <div class="card-heading"><div><p class="eyebrow">Caixa</p><h2>Receitas</h2></div><select id="revenueFilter" aria-label="Filtrar receitas"><option value="">Todas</option><option value="PENDENTE">A receber</option><option value="PAGO">Recebidas</option></select></div>
+              <div id="revenueList" class="table-wrap"></div>
+            </div>
+          </div>
+        </div>
+        <div id="finance-despesas" class="finance-panel" hidden data-permission="despesas">
+          <div class="two-column">
+            <div class="content-card">
+              <div class="card-heading"><div><p class="eyebrow">Contas da clínica</p><h2>Nova conta a pagar</h2></div></div>
+              <form id="expenseForm" class="form-stack">
+                <label>Descrição<input id="expenseDescription" required maxlength="150"></label>
+                <div class="form-row"><label>Categoria<select id="expenseCategory" required><option value="">Selecione</option><option>Aluguel</option><option>Salários e encargos</option><option>Materiais e insumos</option><option>Água, energia e internet</option><option>Impostos e taxas</option><option>Serviços de terceiros</option><option>Equipamentos</option><option>Manutenção</option><option>Marketing</option><option>Outras despesas</option></select></label><label>Fornecedor<input id="expenseSupplier" maxlength="120"></label></div>
+                <div class="form-row"><label>Valor da conta (R$)<input id="expenseAmount" type="number" min="0.01" step="0.01" required></label><label>Vencimento<input id="expenseDue" type="date" required></label></div>
+                <div class="form-row"><label>Recorrência<select id="expenseRepeat"><option value="nao">Sem recorrência</option><option value="mensal">Mensal</option><option value="parcelado">Parcelado</option></select></label><label id="installmentField" hidden>Quantidade de parcelas<input id="expenseInstallments" type="number" min="2" max="36" value="2"></label></div>
+                <p class="form-message" id="expenseMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Registrar conta</button>
+              </form>
+            </div>
+            <div class="content-card">
+              <div class="card-heading"><div><p class="eyebrow">Despesas</p><h2>Contas a pagar</h2></div></div>
+              <div id="expenseList" class="table-wrap"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-estoque" data-permission="estoque" hidden>
+        <div class="two-column">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Materiais</p><h2>Cadastrar produto</h2></div></div>
+            <form id="productForm" class="form-stack">
+              <label>Nome do material<input id="productName" required maxlength="120"></label>
+              <div class="form-row"><label>Unidade de medida<input id="productUnit" maxlength="20" placeholder="un, par, pacote, frasco"></label><label>Estoque mínimo<input id="productMinimum" type="number" min="0" step="0.01" value="0"></label></div>
+              <div class="form-row"><label>Quantidade inicial<input id="productInitial" type="number" min="0" step="0.01" value="0"></label><label>Motivo da entrada<input id="productReason" maxlength="150" value="Saldo inicial"></label></div>
+              <p class="form-message" id="productMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Salvar produto</button>
+            </form>
+            <div class="card-heading sub-heading"><div><p class="eyebrow">Materiais</p><h2>Produtos cadastrados</h2></div></div>
+            <div id="stockProducts" class="table-wrap"></div>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Movimentação</p><h2>Entrada ou saída</h2></div></div>
+            <form id="movementForm" class="form-stack">
+              <label>Produto<select id="movementProduct" required></select></label>
+              <div class="form-row"><label>Tipo<select id="movementType"><option value="ENTRADA">Entrada</option><option value="SAIDA">Saída</option></select></label><label>Quantidade<input id="movementQuantity" type="number" min="0.01" step="0.01" required></label></div>
+              <label>Atendimento relacionado (opcional)<select id="movementAttendance"><option value="">Sem atendimento relacionado</option></select></label>
+              <label>Motivo<input id="movementReason" required maxlength="150" placeholder="Ex.: compra, uso, perda"></label>
+              <p class="form-message" id="movementMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Registrar movimentação</button>
+            </form>
+            <div class="card-heading sub-heading"><div><p class="eyebrow">Últimos 30 dias</p><h2>Movimentações recentes</h2></div></div>
+            <div id="stockMovements" class="table-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-servicos" data-owner-only hidden>
+        <div class="content-card">
+          <div class="card-heading"><div><p class="eyebrow">Atendimento</p><h2>Serviços</h2><p class="small-note">Os serviços ativos aparecem no site e podem ser selecionados para agendamento.</p></div></div>
+        </div>
+        <div class="two-column catalog-editor-grid">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Atendimento</p><h2 id="catalogProcedureTitle">Novo procedimento</h2></div><button class="text-button" id="clearCatalogProcedure" type="button">Limpar</button></div>
+            <form id="catalogProcedureForm" class="form-stack">
+              <input type="hidden" id="catalogProcedureId">
+              <label>Nome<input id="catalogProcedureName" required minlength="3" maxlength="120"></label>
+              <label>Descrição<textarea id="catalogProcedureDescription" rows="3" maxlength="2000"></textarea></label>
+              <div class="form-row"><label>Preço de referência (R$)<input id="catalogProcedurePrice" type="number" min="0" step="0.01" required></label><label>Duração média (min)<input id="catalogProcedureDuration" type="number" min="1" max="240" value="60" required></label></div>
+              <p class="form-message" id="catalogProcedureMessage" role="status" aria-live="polite"></p>
+              <button class="button button-primary" type="submit">Salvar procedimento</button>
+            </form>
+            <div class="catalog-list" id="catalogProcedureList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-logs" data-owner-only hidden>
+        <div class="content-card">
+          <div class="card-heading"><div><p class="eyebrow">Auditoria</p><h2>Logs do sistema</h2><p class="small-note">Ações de gravação da API, com responsável, horário, rota e resultado. Dados dos formulários não são copiados para os logs.</p></div></div>
+          <label class="search-field"><span>⌕</span><input id="systemLogSearch" type="search" placeholder="Filtrar por usuário, ação ou rota"></label>
+          <div id="systemLogList" class="table-wrap"></div>
+        </div>
+      </section>
+
+      <section class="internal-panel" id="internal-relatorios" data-permission-any="relatorio_financeiro,relatorio_estoque" hidden>
+        <div class="subnav" role="tablist">
+          <button class="subnav-button active" data-report-tab="financeiro" data-permission="relatorio_financeiro" role="tab" aria-selected="true">Financeiro</button>
+          <button class="subnav-button" data-report-tab="estoque" data-permission="relatorio_estoque" role="tab" aria-selected="false">Estoque</button>
+        </div>
+        <section id="report-financeiro" class="report-panel active" data-permission="relatorio_financeiro">
+          <div class="report-controls"><label>Período<select id="financialPeriod"><option value="6">Últimos 6 meses</option><option value="3">Últimos 3 meses</option><option value="12">Últimos 12 meses</option></select></label><button class="button button-outline" id="printFinancial" type="button">Imprimir / salvar PDF</button></div>
+          <div id="financialReport"></div>
+        </section>
+        <section id="report-estoque" class="report-panel" hidden data-permission="relatorio_estoque">
+          <div class="report-controls"><label>Movimentações dos últimos<select id="stockPeriod"><option value="30">30 dias</option><option value="90">90 dias</option><option value="365">12 meses</option></select></label><button class="button button-outline" id="printStock" type="button">Imprimir / salvar PDF</button></div>
+          <div id="stockReport"></div>
+        </section>
+      </section>
+
+      <section class="internal-panel" id="internal-usuarios" data-owner-only hidden>
+        <div class="two-column">
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Acesso da equipe</p><h2>Criar usuário</h2><p class="small-note">Somente a proprietária pode criar contas e definir perfis de acesso.</p></div></div>
+            <form id="userForm" class="form-stack">
+              <label>Nome<input id="staffName" required maxlength="120"></label>
+              <label>E-mail<input id="staffEmail" required type="email" maxlength="160"></label>
+              <label>Perfil de acesso<select id="staffProfile" required><option value="">Carregando perfis…</option></select></label>
+              <label>Senha inicial<input id="staffPassword" required type="password" minlength="10" maxlength="128"><small>Use pelo menos 10 caracteres e uma senha exclusiva para esta conta.</small></label>
+              <p class="form-message" id="userMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Criar usuário</button>
+            </form>
+          </div>
+          <div class="content-card">
+            <div class="card-heading"><div><p class="eyebrow">Acesso por função</p><h2>Perfis e permissões</h2><p class="small-note">As alterações de um perfil valem para todos os usuários vinculados a ele.</p></div></div>
+            <form id="profileForm" class="form-stack profile-form">
+              <input type="hidden" id="profileId">
+              <label>Nome do perfil<input id="profileName" required maxlength="60" placeholder="Ex.: Recepção"></label>
+              <fieldset class="permission-fieldset"><legend>Permissões deste perfil</legend><div class="permission-grid" id="profilePermissions"></div></fieldset>
+              <p class="form-message" id="profileMessage" role="status" aria-live="polite"></p>
+              <div class="profile-form-actions"><button class="button button-primary" type="submit" id="saveProfileButton">Salvar perfil</button><button class="button button-outline" type="button" id="cancelProfileEdit" hidden>Cancelar edição</button></div>
+            </form>
+            <div id="profilesList" class="profile-list"></div>
+          </div>
+        </div>
+        <div class="content-card user-list-card"><div class="card-heading"><div><p class="eyebrow">Contas e permissões</p><h2>Usuários do sistema</h2></div></div><div id="usersList" class="table-wrap"></div></div>
+      </section>
+      </div>
+      <dialog class="patient-record-dialog appointment-detail-dialog" id="appointmentDetailDialog" aria-labelledby="appointmentDetailTitle">
+        <div class="patient-record-dialog-head"><div><p class="eyebrow">Agenda da clínica</p><h2 id="appointmentDetailTitle">Detalhes da consulta</h2></div><button class="icon-button" id="closeAppointmentDetail" type="button" aria-label="Fechar detalhes da consulta">×</button></div>
+        <div id="appointmentDetailContent" class="patient-record-content" aria-live="polite"></div>
+      </dialog>
+      <dialog class="patient-record-dialog staff-patient-dialog" id="staffPatientDialog" aria-labelledby="staffPatientTitle">
+        <div class="patient-record-dialog-head"><div><p class="eyebrow">Cadastro do paciente</p><h2 id="staffPatientTitle">Ficha do paciente</h2></div><button class="icon-button" id="closeStaffPatientDialog" type="button" aria-label="Fechar ficha">×</button></div>
+        <div id="staffPatientProfile" class="patient-record-content"><p class="muted">Carregando informações…</p></div>
+      </dialog>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </main>
+    <nav class="internal-bottom-nav" id="internalBottomNav" aria-label="Navegação principal">
+      <button type="button" data-go="dashboard" data-permission="dashboard"><span data-admin-icon="dashboard"></span><span>Início</span></button>
+      <button type="button" data-go="agenda" data-permission="agenda"><span data-admin-icon="calendar"></span><span>Agenda</span></button>
+      <button type="button" data-go="pacientes" data-permission="pacientes"><span data-admin-icon="patients"></span><span>Pacientes</span></button>
+      <button type="button" data-go="atendimento" data-permission="atendimento"><span data-admin-icon="treatment"></span><span>Atendimento</span></button>
+      <button type="button" id="moreInternalMenu" aria-label="Mais módulos" aria-controls="internalSidebar" aria-expanded="false"><span data-admin-icon="more"></span><span>Mais</span></button>
+    </nav>
+  </div>
+  <script type="module" src="/script.js"></script>
+  <script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body>
+</html>

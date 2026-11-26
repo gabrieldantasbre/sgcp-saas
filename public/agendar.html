@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title data-brand-title="Agendar horário">Agendar horário | Clínica Podológica</title><link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg"><script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="public-booking-page" data-page="agendamento">
+  <header class="public-booking-header"><a class="brand" href="/"><img src="/assets/brand-mark.svg" width="44" height="44" alt=""><span>Agendar horário<small><span data-brand="clinicName">Clínica Podológica</span></small></span></a><a href="/login.html">Acessar meu portal →</a></header>
+  <main class="public-booking-layout">
+    <div class="content-card public-booking-card">
+      <ol class="booking-progress" aria-label="Etapas do agendamento">
+        <li data-progress="0"><button type="button" data-booking-nav="0"><b>1</b><span>Serviço</span></button></li>
+        <li data-progress="1"><button type="button" data-booking-nav="1" disabled><b>2</b><span>Data</span></button></li>
+        <li data-progress="2"><button type="button" data-booking-nav="2" disabled><b>3</b><span>Horário</span></button></li>
+        <li data-progress="3"><button type="button" data-booking-nav="3" disabled><b>4</b><span>Identificação</span></button></li>
+        <li data-progress="4"><button type="button" data-booking-nav="4" disabled><b>5</b><span>Pagamento</span></button></li>
+      </ol>
+      <form id="publicBookingForm" class="form-stack" novalidate>
+        <section data-booking-step="0">
+          <p class="booking-eyebrow">Seu cuidado começa aqui</p>
+          <h1 tabindex="-1">Como podemos cuidar de você?</h1><p class="muted">Escolha o serviço e quem vai cuidar de você.</p>
+          <label>Serviço<select id="publicProcedure" required><option value="">Carregando serviços…</option></select></label>
+          <label>Profissional<select id="publicProfessional" required><option value="">Selecione a equipe responsável</option><option value="equipe" data-brand="professionalName">Equipe de podologia</option></select></label>
+          <button type="button" class="button button-primary button-full" id="choosePublicDate">Escolher data <span aria-hidden="true">→</span></button>
+        </section>
+        <section data-booking-step="1" hidden>
+          <h2 tabindex="-1">Selecione uma data</h2><p class="muted">Encontre o melhor dia para o seu atendimento.</p>
+          <div class="booking-calendar" id="publicCalendar" aria-busy="false">
+            <div class="booking-calendar-heading"><button type="button" id="publicPreviousMonth" aria-label="Mês anterior">‹</button><h3 id="publicCalendarMonth" aria-live="polite"></h3><button type="button" id="publicNextMonth" aria-label="Próximo mês">›</button></div>
+            <div class="booking-weekdays" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+            <div id="publicDates" class="booking-calendar-days" role="group" aria-labelledby="publicCalendarMonth"></div>
+          </div>
+          <div class="booking-calendar-legend"><span><i class="legend-available"></i>Disponível</span><span><i class="legend-selected"></i>Selecionado</span><span><i class="legend-unavailable"></i>Indisponível</span></div>
+          <p id="publicCalendarStatus" class="small-note" role="status" aria-live="polite"></p>
+          <button type="button" class="text-button" id="publicRetryDates" hidden>Tentar novamente</button>
+          <div class="booking-actions"><button class="button button-outline" type="button" data-booking-back="0">← Voltar</button><button class="button button-primary" type="button" id="choosePublicTime" disabled>Ver horários <span aria-hidden="true">→</span></button></div>
+        </section>
+        <section data-booking-step="2" hidden>
+          <h2 tabindex="-1">Escolha um horário</h2><p id="publicTimeDate" class="muted"></p><div id="publicTimes" class="time-choice-grid"></div>
+          <p class="small-note">Todos os horários estão no fuso de Brasília.</p><div class="booking-actions"><button class="button button-outline" type="button" data-booking-back="1">← Voltar</button></div>
+        </section>
+        <section data-booking-step="3" hidden>
+          <h2 tabindex="-1">Identificação do paciente</h2><p class="small-note">Primeiro atendimento? Não precisa ter cadastro na clínica nem criar uma conta. Preencha seus dados abaixo: seu cadastro será criado ao solicitar o agendamento.</p><p class="small-note">Se já é paciente, use seu CPF e os dados cadastrados para vincular o atendimento ao seu histórico.</p>
+          <label>Nome completo<input id="publicName" minlength="3" maxlength="120" autocomplete="name" required></label><div class="form-row"><label>CPF do paciente<input id="publicCpf" maxlength="14" inputmode="numeric" required></label><label>Nascimento<input id="publicBirth" type="date" required></label></div><label>Celular<input id="publicPhone" type="tel" maxlength="20" autocomplete="tel" required></label><label>E-mail (opcional)<input id="publicEmail" type="email" maxlength="160" autocomplete="email"></label>
+          <section class="guardian-fields" id="publicGuardianFields" hidden><h3>Autorização da mãe ou do pai</h3><p>O cadastro de menores de 18 anos exige autorização específica dos pais.</p><label>Quem autoriza?<select id="publicGuardianRelationship"><option value="">Selecione</option><option value="MAE">Mãe</option><option value="PAI">Pai</option></select></label><label>Nome do responsável<input id="publicGuardianName" maxlength="120"></label><label>CPF do responsável<input id="publicGuardianCpf" maxlength="14" inputmode="numeric"></label><label class="check-row"><input id="publicGuardianConsent" type="checkbox"><span>Declaro ser a mãe ou o pai e autorizo o cadastro ou atualização dos dados do menor e o tratamento necessário para acesso ao portal e organização do atendimento, conforme o <a href="/privacidade.html">Aviso de Privacidade 2026-11-v4</a>.</span></label></section>
+          <label>Observação (opcional)<textarea id="publicObservation" maxlength="200" rows="2" aria-describedby="publicObservationHint"></textarea><small id="publicObservationHint">Até 200 caracteres.</small></label><label class="check-row"><input id="publicPrivacy" type="checkbox" required><span>Li e estou ciente do <a href="/privacidade.html" target="_blank" rel="noopener">Aviso de Privacidade</a>.</span></label>
+          <label class="check-row"><input id="publicTerms" type="checkbox" required value="2026-11-v2"><span>Li e aceito os <a href="/termos.html" target="_blank" rel="noopener">Termos de Uso (versão 2026-11-v2)</a>.</span></label>
+          <div class="booking-actions"><button class="button button-outline" type="button" data-booking-back="2">← Voltar</button><button class="button button-primary" id="choosePublicPayment" type="button">Forma de pagamento <span aria-hidden="true">→</span></button></div>
+        </section>
+        <section data-booking-step="4" hidden>
+          <h2 tabindex="-1">Como prefere pagar?</h2><p class="muted">Informe sua preferência para o atendimento na clínica.</p>
+          <fieldset class="booking-payment-options"><legend class="sr-only">Forma de pagamento</legend>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="PIX" required><span class="booking-payment-icon" aria-hidden="true">◇</span><span><strong>Pix</strong><small>Praticidade no atendimento</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="CARTAO_CREDITO" required><span class="booking-payment-icon" data-booking-icon="card"></span><span><strong>Cartão de crédito</strong><small>Pagamento na clínica</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="CARTAO_DEBITO" required><span class="booking-payment-icon" data-booking-icon="card"></span><span><strong>Cartão de débito</strong><small>Pagamento na clínica</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="DINHEIRO" required><span class="booking-payment-icon" data-booking-icon="wallet"></span><span><strong>Dinheiro</strong><small>Pagamento na clínica</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="BOLETO" required><span class="booking-payment-icon" data-booking-icon="receipt"></span><span><strong>Boleto</strong><small>Combine os detalhes com a clínica</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+            <label class="booking-payment-option"><input type="radio" name="publicPayment" value="TRANSFERENCIA" required><span class="booking-payment-icon" aria-hidden="true">⇄</span><span><strong>Transferência</strong><small>Combine os detalhes com a clínica</small></span><span class="booking-payment-check" aria-hidden="true"></span></label>
+          </fieldset>
+          <p class="booking-payment-note"><span data-booking-icon="info"></span><span>Nenhum valor será cobrado agora. O pagamento será combinado com a clínica.</span></p>
+          <div class="booking-actions"><button class="button button-outline" type="button" data-booking-back="3">← Voltar</button><button class="button button-primary" id="sendPublicBooking" type="submit">Solicitar agendamento <span aria-hidden="true">→</span></button></div>
+        </section>
+        <p id="publicBookingMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+      <section id="publicBookingSuccess" hidden><span class="booking-success-icon" data-booking-icon="check"></span><h2 tabindex="-1">Solicitação enviada!</h2><p>A clínica entrará em contato para confirmar seu atendimento.</p><p id="publicSuccessDetails"></p><a class="button button-primary" href="/">Voltar ao site</a></section>
+    </div>
+    <aside class="content-card public-booking-summary" aria-labelledby="publicSummaryTitle">
+      <div class="booking-summary-heading"><span class="booking-summary-icon" data-booking-icon="calendar"></span><div><h2 id="publicSummaryTitle">Seu agendamento</h2><p>Resumo do atendimento</p></div></div>
+      <dl>
+        <div class="booking-summary-item"><dt><span class="booking-summary-icon" data-booking-icon="user"></span>Profissional</dt><dd id="publicSummaryProfessional">A selecionar</dd></div>
+        <div class="booking-summary-item"><dt><span class="booking-summary-icon" data-booking-icon="care"></span>Serviço</dt><dd id="publicSummaryService">A selecionar</dd></div>
+        <div class="booking-summary-item"><dt><span class="booking-summary-icon" data-booking-icon="calendar"></span>Data</dt><dd id="publicSummaryDate">A selecionar</dd></div>
+        <div class="booking-summary-item"><dt><span class="booking-summary-icon" data-booking-icon="clock"></span>Horário</dt><dd id="publicSummaryTime">A selecionar</dd></div>
+        <div class="booking-summary-item"><dt><span class="booking-summary-icon" data-booking-icon="wallet"></span>Pagamento</dt><dd id="publicSummaryPayment">A selecionar</dd></div>
+      </dl>
+      <div class="booking-summary-footer"><span data-booking-icon="info"></span><p>Horário de Brasília. Seu atendimento será confirmado pela clínica.</p></div>
+    </aside>
+  </main><script type="module" src="/script.js"></script><script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body></html>

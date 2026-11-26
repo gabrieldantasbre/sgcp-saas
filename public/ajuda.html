@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <meta name="description" content="Guias e perguntas frequentes para pacientes e equipe da clínica podológica.">
+  <title data-brand-title="Central de ajuda">Central de ajuda | Clínica Podológica</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/help.css">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="help-page">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="help-header">
+    <a class="brand" href="/"><img src="/assets/brand-mark.svg" width="40" height="40" alt=""><span><span data-brand="productName">SGCP</span><small>Central de ajuda</small></span></a>
+    <div class="help-header-actions"><a class="help-return" id="helpReturn" href="/login.html">Acessar minha conta <span aria-hidden="true">↗</span></a></div>
+  </header>
+
+  <main id="conteudo" class="help-main">
+    <section class="help-hero" aria-labelledby="helpTitle">
+      <span class="help-kicker">Estamos aqui para ajudar</span>
+      <h1 id="helpTitle">Como podemos ajudar?</h1>
+      <p>Encontre respostas e aprenda a usar o sistema, do primeiro acesso à rotina da clínica.</p>
+      <form class="help-search" id="helpSearchForm" role="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <label class="sr-only" for="helpSearch">Buscar na central de ajuda</label>
+        <input id="helpSearch" type="search" maxlength="160" placeholder="Busque por agendamento, cadastro, senha…" aria-describedby="helpSearchHint" autocomplete="off">
+        <button type="button" id="helpClear" hidden aria-label="Limpar busca">×</button>
+      </form>
+      <p id="helpSearchHint" class="help-search-hint">Dica: você pode buscar sem acentos.</p>
+    </section>
+
+    <div class="help-toolbar">
+      <div class="help-audiences" role="group" aria-label="Mostrar ajuda para">
+        <button type="button" data-help-audience="todos" aria-pressed="true">Todos</button>
+        <button type="button" data-help-audience="pacientes" aria-pressed="false">Sou paciente</button>
+        <button type="button" data-help-audience="equipe" aria-pressed="false">Equipe da clínica</button>
+      </div>
+      <p id="helpStatus" role="status" aria-live="polite" aria-atomic="true">Guias e respostas para você</p>
+    </div>
+
+    <div class="help-layout">
+      <div class="help-content">
+        <section id="helpGuides" aria-labelledby="guidesTitle">
+          <div class="help-section-heading"><span class="help-section-icon" aria-hidden="true">↗</span><div><h2 id="guidesTitle">Aprenda a usar</h2><p>Passos simples para as tarefas do dia a dia.</p></div></div>
+          <div class="help-guides">
+            <article class="help-guide" data-help-item data-audience="pacientes" id="guia-cadastro">
+              <span class="help-label">Pacientes · Primeiro acesso</span><h3>Criar sua conta</h3>
+              <ol><li>Abra <a href="/cadastro.html">Criar conta</a> e informe e-mail, CPF e uma senha com pelo menos 10 caracteres.</li><li>Informe a faixa etária. Para menores de 18 anos, a mãe ou o pai deve se identificar e autorizar o cadastro.</li><li>Leia o aviso de privacidade, aceite os termos de uso e selecione <strong>Criar conta</strong>.</li><li>Antes do primeiro agendamento, complete nome e nascimento em <strong>Perfil</strong>. Telefone e endereço são opcionais no perfil.</li></ol>
+              <p class="help-note">Já tem prontuário na clínica? Peça um convite de acesso para vincular sua conta ao histórico existente.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="pacientes" id="guia-agendar">
+              <span class="help-label">Pacientes · Agendamentos</span><h3>Agendar uma consulta</h3>
+              <ol><li>No portal, selecione <strong>Agendar</strong> e escolha o serviço.</li><li>Escolha um dia e um horário disponível. Use as setas para consultar outras semanas.</li><li>Confira o resumo e selecione <strong>Confirmar agendamento</strong>.</li><li>Acompanhe a confirmação da clínica em <strong>Consultas</strong>.</li></ol>
+              <p class="help-note">Prefere agendar sem criar conta? Use <a href="/agendar.html">Agendar pelo site</a> e siga as etapas de serviço, data, horário, identificação e preferência de pagamento.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="pacientes" id="guia-consultas">
+              <span class="help-label">Pacientes · Consultas</span><h3>Consultar, remarcar ou cancelar</h3>
+              <ol><li>Abra <strong>Consultas</strong> no portal e localize o atendimento.</li><li>Abra os detalhes para conferir data, horário, serviço e situação.</li><li>Para remarcar, selecione <strong>Remarcar</strong>, escolha o novo horário e confirme. A clínica confirmará a nova solicitação.</li><li>Para cancelar, selecione <strong>Cancelar consulta</strong> e confirme a ação.</li></ol>
+              <p class="help-note">A remarcação e o cancelamento pelo portal exigem pelo menos 2 horas de antecedência. Depois desse prazo, fale com a clínica.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="pacientes" id="guia-perfil">
+              <span class="help-label">Pacientes · Seus dados</span><h3>Atualizar o perfil e ver seu histórico</h3>
+              <ol><li>Abra <strong>Perfil</strong> e atualize os campos disponíveis.</li><li>Selecione <strong>Salvar alterações</strong>. Para corrigir CPF ou uma data de nascimento já registrada, fale com a clínica.</li><li>Use <strong>Abrir minha ficha</strong> para consultar seus dados e registros de atendimento.</li><li>Se quiser encerrar o acesso, use <strong>Descadastrar minha conta</strong> no final do perfil.</li></ol>
+              <p class="help-note">Descadastrar o acesso não cancela consultas e não apaga automaticamente o histórico. Para solicitar análise dos seus dados, entre em contato com a clínica.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="equipe" id="guia-agenda-equipe">
+              <span class="help-label">Equipe · Agenda</span><h3>Organizar a agenda da clínica</h3>
+              <ol><li>Abra <strong>Agenda</strong> e escolha a visualização de dia, semana ou mês.</li><li>Para agendar, selecione o paciente, o serviço, o dia e um horário livre no formulário.</li><li>Abra os detalhes de uma consulta para conferir os dados e atualizar a situação.</li><li>Use o sino de <strong>Notificações</strong> para acompanhar solicitações on-line que aguardam confirmação.</li></ol>
+              <p class="help-note">Para reservar um intervalo sem atendimento, cadastre um bloqueio. Ele não pode sobrepor uma consulta existente e vale também para o site e o portal.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="equipe" id="guia-pacientes-equipe">
+              <span class="help-label">Equipe · Pacientes</span><h3>Cadastrar pacientes e liberar o portal</h3>
+              <ol><li>Abra <strong>Pacientes</strong> e busque por nome ou CPF. Use os filtros para localizar menores de idade ou cadastros sem contato.</li><li>Selecione <strong>Novo paciente</strong> para abrir o cadastro, preencha os dados e use <strong>Salvar paciente</strong>. Para menores, registre a autorização específica da mãe ou do pai. Para atualizar um cadastro, use <strong>Editar</strong> na lista.</li><li>Use <strong>Ver perfil</strong> para consultar o histórico conforme suas permissões.</li><li>A proprietária pode selecionar <strong>Gerar convite de acesso</strong> após conferir a identidade e a autorização dos pais, quando necessária.</li></ol>
+              <p class="help-note">O convite vale por 24 horas e só pode ser usado uma vez. Copie e entregue o link diretamente ao paciente ou aos pais. Gerar outro convite invalida o anterior.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="equipe" id="guia-atendimento-equipe">
+              <span class="help-label">Equipe · Atendimento</span><h3>Registrar o atendimento</h3>
+              <ol><li>Abra <strong>Atendimento</strong> e selecione o paciente correto.</li><li>Confira o histórico e preencha a anamnese com as informações necessárias ao cuidado.</li><li>Registre o procedimento, a evolução e as orientações do atendimento.</li><li>Revise os dados antes de concluir. O acesso às informações clínicas depende do perfil do usuário.</li></ol>
+              <p class="help-note">Um menu indisponível pode indicar que seu perfil não tem permissão. Peça à proprietária que confira os acessos.</p>
+            </article>
+            <article class="help-guide" data-help-item data-audience="equipe" id="guia-gestao-equipe">
+              <span class="help-label">Equipe · Gestão</span><h3>Acompanhar financeiro e estoque</h3>
+              <ol><li>Em <strong>Financeiro</strong>, registre receitas ou despesas de acordo com seu perfil.</li><li>Confira valor, data, forma de pagamento e situação antes de salvar um recebimento.</li><li>Em <strong>Estoque</strong>, registre entradas e saídas e acompanhe os itens abaixo do mínimo.</li><li>Em <strong>Relatórios</strong>, use os filtros disponíveis para acompanhar o período desejado.</li></ol>
+              <p class="help-note">A proprietária administra contas e perfis em <strong>Usuários</strong>. Valores e relatórios financeiros são exibidos apenas para usuários autorizados.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="helpFaq" aria-labelledby="faqTitle">
+          <div class="help-section-heading"><span class="help-section-icon" aria-hidden="true">?</span><div><h2 id="faqTitle">Perguntas frequentes</h2><p>Respostas rápidas para as dúvidas mais comuns.</p></div></div>
+          <div class="help-faq-list">
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Posso entrar usando meu CPF?</summary><p>Sim. Na tela de acesso, informe seu e-mail ou CPF e a senha cadastrada. CPF e e-mail sozinhos não substituem a senha.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Esqueci minha senha. Como recupero o acesso?</summary><p>Entre em contato com a clínica para receber orientação sobre a recuperação do acesso. Nunca envie sua senha por mensagem e não crie outro cadastro para tentar acessar um histórico existente.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Meu CPF já está cadastrado. O que faço?</summary><p>Se você já tem conta, entre com seu e-mail ou CPF e senha. Se possui apenas cadastro na clínica, peça um convite de acesso. Ele vincula o portal ao prontuário existente após a conferência feita pela clínica.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>O convite expirou ou já foi usado?</summary><p>Um convite vale por 24 horas e só pode ser usado uma vez. Se você já concluiu o cadastro, entre normalmente. Caso contrário, peça um novo convite à clínica e use o link mais recente.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Preciso criar conta para agendar?</summary><p>Não. A página <a href="/agendar.html">Agendar pelo site</a> permite solicitar um horário sem conta. Você preenche os dados de identificação e contato, lê os avisos e aceita os termos. O portal facilita acompanhar e alterar suas consultas.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Minha consulta está aguardando confirmação. Ela foi agendada?</summary><p>A solicitação foi recebida, mas ainda precisa da confirmação da clínica. Acompanhe a situação em Consultas. Evite fazer vários pedidos para o mesmo atendimento.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Por que não consigo remarcar ou cancelar?</summary><p>No portal, a consulta precisa estar agendada ou confirmada e ter pelo menos 2 horas de antecedência. Consultas concluídas, canceladas ou marcadas como falta não podem ser alteradas por esse fluxo. Se precisar de ajuda, fale com a clínica.</p></details>
+            <details class="help-faq" data-help-item data-audience="todos"><summary>Como funciona o cadastro de menores de idade?</summary><p>Para menores de 18 anos, o serviço exige autorização específica da mãe ou do pai, com nome, CPF próprio e vínculo de quem autoriza. O aceite dos termos é separado dessa autorização. A clínica deve conferir a identidade e a responsabilidade antes do atendimento.</p></details>
+            <details class="help-faq" data-help-item data-audience="pacientes"><summary>Descadastrar a conta apaga meus dados ou cancela consultas?</summary><p>Não. O botão desativa o acesso ao portal e encerra a sessão. Consultas e registros de atendimento são preservados. Para tratar de consultas ou solicitar análise de eliminação de dados, entre em contato pelo canal indicado no <a href="/privacidade.html">Aviso de Privacidade</a>.</p></details>
+            <details class="help-faq" data-help-item data-audience="equipe"><summary>Por que alguns menus não aparecem para mim?</summary><p>Os módulos dependem das permissões do seu perfil. A proprietária administra esses acessos em Usuários. Solicite a conferência do seu perfil e use sua própria conta para trabalhar.</p></details>
+            <details class="help-faq" data-help-item data-audience="equipe"><summary>Como acompanho os pedidos de consulta pelo site?</summary><p>Abra o sino de Notificações no cabeçalho. Ele lista solicitações on-line pendentes para quem tem acesso à agenda. Abra uma solicitação para conferir os detalhes e confirmar o atendimento.</p></details>
+            <details class="help-faq" data-help-item data-audience="equipe"><summary>Um bloqueio de horário também vale para os pacientes?</summary><p>Sim. Os bloqueios da agenda impedem a reserva daquele intervalo pela equipe, pelo portal e pelo agendamento público. Para liberar o período novamente, remova o bloqueio na agenda.</p></details>
+            <details class="help-faq" data-help-item data-audience="todos"><summary>Como ativo o modo escuro ou o alto contraste?</summary><p>Use o ícone de lua no cabeçalho para ativar o modo escuro e o ícone de sol para voltar ao modo claro. No primeiro acesso, o tema acompanha a preferência do aparelho. Sua escolha fica salva neste navegador. O botão Alto contraste continua disponível e tem prioridade visual sobre o tema.</p></details>
+            <details class="help-faq" data-help-item data-audience="todos"><summary>Posso usar pelo celular e navegar pelo teclado?</summary><p>Sim. No celular, use a navegação inferior do portal e o menu do painel da equipe. Pelo teclado, use Tab para avançar, Shift + Tab para voltar e Enter ou Espaço para ativar botões. Nas perguntas desta central, Enter ou Espaço abre a resposta. Escape fecha menus e janelas compatíveis.</p></details>
+            <details class="help-faq" data-help-item data-audience="todos"><summary>Recusar cookies opcionais impede o acesso?</summary><p>Não. Você pode recusar os opcionais e continuar usando o sistema. O cookie necessário à sessão mantém seu acesso autenticado. Para rever a escolha, use o botão Cookies.</p></details>
+            <details class="help-faq" data-help-item data-audience="todos"><summary>Uma tela não carregou. O que posso tentar?</summary><p>Confira sua conexão e atualize a página. Se a sessão terminou, entre novamente. Se o problema continuar, anote a tela, o horário e o que tentou fazer para explicar à clínica. Evite reenviar um cadastro ou pagamento sem conferir se ele já foi salvo.</p></details>
+          </div>
+        </section>
+        <section class="help-empty" id="helpEmpty" hidden aria-labelledby="emptyTitle"><h2 id="emptyTitle">Não encontramos esse assunto</h2><p>Tente uma palavra mais curta, como “agenda”, “senha” ou “perfil”, ou veja os assuntos de todos os públicos.</p><button type="button" class="button button-outline" id="helpReset">Ver toda a ajuda</button></section>
+      </div>
+
+      <aside class="help-sidebar" aria-label="Atalhos e contato">
+        <section class="help-side-card"><span class="help-label">Acesso rápido</span><h2>Continue por aqui</h2><a href="/login.html">Entrar na minha conta <span aria-hidden="true">↗</span></a><a href="/agendar.html">Agendar pelo site <span aria-hidden="true">↗</span></a><a href="/portal.html?aba=consultas">Minhas consultas <span aria-hidden="true">↗</span></a><a href="/termos.html">Termos de Uso <span aria-hidden="true">↗</span></a><a href="/privacidade.html">Aviso de Privacidade <span aria-hidden="true">↗</span></a></section>
+        <section class="help-side-card help-contact" id="contato"><span class="help-label">Ainda precisa de ajuda?</span><h2>Fale com a clínica</h2><p>Para dúvidas sobre consultas, acesso, cadastro ou privacidade, procure a recepção pelos canais informados pela sua clínica.</p><a class="button button-primary" href="/ajuda.html#contato" data-contact-link data-contact-direct hidden>Falar com a equipe <span aria-hidden="true">↗</span></a><p class="help-contact-note">Equipe do sistema: para permissões e rotinas internas, procure a proprietária da clínica.</p></section>
+      </aside>
+    </div>
+    <footer class="help-footer"><span><span data-brand="clinicName">Clínica Podológica</span></span><a href="/">Voltar ao site</a></footer>
+  </main>
+  <noscript><p class="help-noscript">A busca precisa de JavaScript. Os guias e as perguntas continuam disponíveis nesta página.</p></noscript>
+  <script defer src="/help.js"></script>
+  <script defer src="/accessibility.js"></script>
+  <script defer src="/cookies.js"></script>
+</body>
+</html>

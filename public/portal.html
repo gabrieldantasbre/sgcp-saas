@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <title data-brand-title="Portal do paciente">Portal do paciente | Clínica Podológica</title>
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/portal.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="portal-page" data-page="portal">
+  <header class="portal-header">
+    <a class="brand" href="/"><img src="/assets/brand-mark.svg" width="40" height="40" alt=""><span><strong data-brand="productName">SGCP</strong><small>Portal do cliente</small></span></a>
+    <div class="portal-account"><span class="avatar" id="portalInitials">P</span><strong id="portalUserName">Paciente</strong><button id="portalLogout" class="icon-button" type="button" title="Sair" aria-label="Sair">↪</button></div>
+  </header>
+  <main class="portal-main">
+    <section class="portal-panel active" id="portal-inicio">
+      <div class="portal-welcome"><p class="eyebrow">Portal do paciente</p><h1>Olá, <span id="welcomeName">paciente</span></h1><p>Acompanhe suas consultas e agende seu próximo cuidado.</p><button class="button button-primary" type="button" data-portal-go="agendar">Agendar consulta</button></div>
+      <div class="content-card"><div class="card-heading"><div><p class="eyebrow">Seu próximo compromisso</p><h2>Próxima consulta</h2></div><button class="text-button" type="button" data-portal-go="consultas">Ver todas →</button></div><div id="nextPatientAppointment"></div></div>
+      <div class="portal-info-grid"><article class="info-card"><span class="info-icon">01</span><h3>Escolha o serviço</h3><p>Consulte a duração e o valor de referência.</p></article><article class="info-card"><span class="info-icon">02</span><h3>Selecione um horário</h3><p>A agenda mostra apenas os horários livres.</p></article><article class="info-card"><span class="info-icon">03</span><h3>Aguarde a confirmação</h3><p>A recepção confirma a solicitação pelo portal.</p></article></div>
+    </section>
+
+    <section class="portal-panel" id="portal-agendar" hidden>
+      <div class="portal-heading"><p class="portal-breadcrumb"><span data-portal-icon="calendar"></span> Portal do cliente <span aria-hidden="true">/</span> Agendamento</p><h1>Agendar consulta</h1><p>Escolha o serviço, o dia e o melhor horário para você.</p></div>
+      <div class="booking-layout">
+        <div class="booking-step content-card">
+          <div class="step-title"><span>1</span><div><h2>Escolha o serviço</h2><p>Selecione o atendimento desejado.</p></div></div>
+          <div id="portalServices" class="portal-service-list"></div>
+          <div class="step-title step-divider"><span>2</span><div><h2>Escolha o dia</h2><p>Selecione uma data com horário disponível.</p></div></div>
+          <div class="portal-date-heading"><p id="portalDateRange" aria-live="polite">Datas disponíveis</p><div><button id="portalPreviousWeek" class="icon-button" type="button" aria-label="Semana anterior" disabled>‹</button><button id="portalNextWeek" class="icon-button" type="button" aria-label="Próxima semana" disabled>›</button></div></div>
+          <div id="availableDates" class="date-choice-list"><p class="muted">Escolha primeiro um serviço.</p></div>
+          <div class="step-title step-divider"><span>3</span><div><h2>Escolha o horário</h2><p>Os horários exibidos estão livres neste momento.</p></div></div>
+          <div id="availableTimes" class="time-choice-grid"><p class="muted">Escolha um dia para ver os horários.</p></div>
+          <details class="booking-note"><summary>Adicionar observação (opcional)</summary><label>Observação para a podóloga<textarea id="bookingObservation" rows="2" maxlength="255" placeholder="Ex.: retorno, trazer exames"></textarea></label></details>
+        </div>
+        <aside class="booking-sidebar"><div class="booking-summary content-card">
+          <p class="eyebrow">Resumo do agendamento</p><h2 id="bookingSummaryService">Escolha um serviço</h2>
+          <p id="bookingSummaryDuration" class="muted"></p>
+          <div class="portal-summary-slot"><span class="portal-summary-icon" data-portal-icon="calendar"></span><div><strong id="bookingSummarySlot">Dia não selecionado</strong><small id="bookingSummaryTime">Escolha um horário</small></div></div>
+          <div class="portal-summary-total"><span>Valor de referência</span><strong id="bookingSummaryTotal">—</strong></div>
+          <p class="form-message" id="bookingMessage" role="status" aria-live="polite"></p>
+          <button class="button button-primary button-full" id="confirmBooking" type="button" disabled>Confirmar agendamento</button>
+          <p class="portal-summary-note"><span data-portal-icon="clock"></span>O horário fica reservado por uma hora. A confirmação será feita pela recepção.</p>
+          <button class="text-button cancel-reschedule" id="stopReschedule" type="button" hidden>Cancelar remarcação</button>
+        </div><button class="portal-follow-card" type="button" data-portal-go="consultas"><span class="portal-summary-icon" data-portal-icon="users"></span><span><strong>Acompanhe sua solicitação</strong><small>Consulte o status na aba Consultas.</small></span><span data-portal-icon="chevron"></span></button></aside>
+      </div>
+    </section>
+
+    <section class="portal-panel" id="portal-consultas" hidden>
+      <div class="portal-heading consultations-heading"><div><h1>Minhas consultas</h1><p>Gerencie seus atendimentos de forma simples e rápida.</p></div><button class="button button-primary" type="button" data-portal-go="agendar"><span data-portal-icon="plus"></span>Agendar consulta</button></div>
+      <p class="form-message" id="consultationsFeedback" role="status" aria-live="polite"></p>
+      <div id="featuredPatientAppointment" class="consultations-featured" aria-live="polite"><p>Carregando sua próxima consulta…</p></div>
+      <div class="consultations-layout">
+        <section class="content-card consultations-agenda" aria-labelledby="consultationsAgendaTitle">
+          <div class="consultations-card-heading"><h2 id="consultationsAgendaTitle">Minha agenda</h2><span id="consultationsCount" class="muted" aria-live="polite"></span></div>
+          <div class="consultations-tabs" role="tablist" aria-label="Consultas por período"><button type="button" id="upcomingConsultationsTab" role="tab" aria-selected="true" aria-controls="upcomingAppointments" tabindex="0" data-consultation-tab="upcoming">Próximas</button><button type="button" id="pastConsultationsTab" role="tab" aria-selected="false" aria-controls="pastAppointments" tabindex="-1" data-consultation-tab="past">Histórico</button></div>
+          <button type="button" class="text-button consultations-clear-date" id="clearConsultationDate" hidden>Mostrar todas as datas</button>
+          <div id="upcomingAppointments" class="consultations-list" role="tabpanel" aria-labelledby="upcomingConsultationsTab"></div>
+          <div id="pastAppointments" class="consultations-list" role="tabpanel" aria-labelledby="pastConsultationsTab" hidden></div>
+        </section>
+        <aside class="content-card consultations-calendar-card" aria-labelledby="consultationsCalendarTitle">
+          <div class="consultations-card-heading"><h2 id="consultationsCalendarTitle">Calendário</h2><span data-portal-icon="calendar"></span></div>
+          <div class="consultations-month-controls"><button type="button" class="icon-button" id="consultationPreviousMonth" aria-label="Mês anterior">‹</button><strong id="consultationsMonthLabel" aria-live="polite"></strong><button type="button" class="icon-button" id="consultationNextMonth" aria-label="Próximo mês">›</button></div>
+          <div class="consultations-weekdays" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+          <div class="consultations-calendar-days" id="consultationsCalendarDays" role="group" aria-label="Datas das suas consultas"></div>
+          <p class="consultations-calendar-legend"><span aria-hidden="true"></span><span id="consultationsCalendarLegend">Consulta agendada</span></p>
+          <div class="consultations-help"><span data-portal-icon="clock"></span><div><strong>Precisa alterar uma consulta?</strong><p>Remarcações e cancelamentos podem ser realizados até 2 horas antes do atendimento.</p></div></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="portal-panel" id="portal-perfil" hidden>
+      <div class="portal-heading"><p class="eyebrow">Seus dados</p><h1>Perfil</h1><p>Atualize seus dados de contato para a clínica.</p></div>
+      <div class="content-card profile-card">
+        <div class="patient-record-prompt"><div><h2>Minha ficha e meu histórico</h2><p>Consulte seus dados, consultas e informações dos atendimentos em um só lugar.</p></div><button class="button button-outline" id="openPatientRecord" type="button">Abrir minha ficha</button></div>
+        <p class="profile-completion-note" id="profileCompletionNote" hidden role="status">Seu acesso já está criado. Antes do primeiro agendamento, informe nome e nascimento para identificar o paciente e aplicar a autorização dos pais. Telefone e endereço são opcionais.</p>
+        <form id="profileForm" class="form-stack">
+          <label>Nome completo<input id="profileName" required maxlength="120"></label>
+          <label>CPF<input id="profileCpf" readonly aria-describedby="cpfHelp"><small id="cpfHelp">Para corrigir seu CPF, entre em contato com a clínica.</small></label>
+          <div class="form-row"><label>Celular<input id="profilePhone" type="tel" maxlength="20"></label><label>Data de nascimento<input id="profileBirth" type="date" required></label></div>
+          <section class="guardian-fields" id="profileGuardianFields" hidden aria-labelledby="profileGuardianTitle">
+            <h3 id="profileGuardianTitle">Consentimento do responsável</h3>
+            <label>Quem autoriza?<select id="profileGuardianRelationship"><option value="">Selecione</option><option value="MAE">Mãe</option><option value="PAI">Pai</option></select></label>
+            <p>Para atualizar os dados de uma pessoa menor de 18 anos, a mãe ou o pai precisa confirmar a autorização específica.</p>
+            <div class="form-row"><label>Nome do responsável<input id="profileGuardianName" maxlength="120" autocomplete="name"></label><label>CPF do responsável<input id="profileGuardianCpf" maxlength="14" inputmode="numeric" placeholder="000.000.000-00" autocomplete="off"></label></div>
+            <label class="check-row"><input id="profileGuardianConsent" type="checkbox"><span>Declaro ser a mãe ou o pai e autorizo o cadastro ou atualização dos dados do menor e o tratamento necessário para acesso ao portal e organização do atendimento, conforme o <a href="/privacidade.html">Aviso de Privacidade 2026-11-v4</a>.</span></label>
+          </section>
+          <label>E-mail<input id="profileEmail" type="email" required maxlength="160"></label>
+          <label>Endereço<input id="profileAddress" maxlength="200"></label>
+          <p class="form-message" id="profileMessage" role="status" aria-live="polite"></p><button class="button button-primary" type="submit">Salvar alterações</button>
+        </form>
+        <section class="account-removal" aria-labelledby="accountRemovalTitle">
+          <h2 id="accountRemovalTitle">Descadastrar do portal</h2>
+          <p>Isso desativa seu acesso e encerra sua sessão. O cadastro e o histórico de atendimentos não são apagados por este botão. Para solicitar análise sobre seus dados, fale pelo <a href="/ajuda.html#contato" data-contact-link>canal de atendimento da clínica</a>.</p>
+          <button class="button button-danger" id="closePortalAccount" type="button">Descadastrar minha conta</button>
+        </section>
+      </div>
+    </section>
+  </main>
+  <dialog class="patient-record-dialog consultation-detail-dialog" id="consultationDetailDialog" aria-labelledby="consultationDetailTitle">
+    <div class="patient-record-dialog-head"><div><p class="eyebrow">Sua consulta</p><h2 id="consultationDetailTitle">Detalhes do agendamento</h2></div><button class="icon-button" id="closeConsultationDetail" type="button" aria-label="Fechar detalhes da consulta">×</button></div>
+    <div id="consultationDetailContent" class="patient-record-content"></div>
+  </dialog>
+  <dialog class="patient-record-dialog" id="patientRecordDialog" aria-labelledby="patientRecordTitle">
+    <div class="patient-record-dialog-head"><div><p class="eyebrow">Área pessoal</p><h2 id="patientRecordTitle">Minha ficha completa</h2></div><button class="icon-button" id="closePatientRecord" type="button" aria-label="Fechar ficha">×</button></div>
+    <div id="patientRecordContent" class="patient-record-content"><p class="muted">Carregando suas informações…</p></div>
+  </dialog>
+  <nav class="portal-bottom-nav" id="portalNav" aria-label="Portal do paciente">
+    <button type="button" class="active" data-portal-tab="inicio"><span data-portal-icon="dashboard"></span>Início</button>
+    <button type="button" data-portal-tab="agendar"><span data-portal-icon="plus"></span>Agendar</button>
+    <button type="button" data-portal-tab="consultas"><span data-portal-icon="treatment"></span>Consultas</button>
+    <button type="button" data-portal-tab="perfil"><span data-portal-icon="patients"></span>Perfil</button>
+  </nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/script.js"></script>
+  <script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body>
+</html>

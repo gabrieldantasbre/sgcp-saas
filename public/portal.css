@@ -1,0 +1,306 @@
+/* Portal do cliente: visual compacto, com escolhas e resumo sempre legíveis. */
+.portal-page, .not-found-page {
+  --ink: #203b70;
+  --muted: #73819b;
+  --primary: #2354a4;
+  --primary-dark: #1c4489;
+  --primary-soft: #e8eef8;
+  --border: #dce4f0;
+  --display: 'Manrope', 'Segoe UI', sans-serif;
+  background: #f2efeb;
+  font-size: 13px;
+}
+.portal-page svg { display: block; width: 18px; height: 18px; flex-shrink: 0; }
+.portal-page .portal-header { min-height: 72px; padding: 14px max(24px, calc((100vw - 1140px) / 2)); border-bottom: 0; background: white; }
+.portal-header .brand { gap: 11px; font-size: 13px; letter-spacing: -.02em; }
+.portal-header .brand-mark { width: 34px; height: 34px; flex: 0 0 34px; border-radius: 50%; background: #203768; font-size: 12px; }
+.portal-header .brand strong, .portal-header .brand small { display: block; }
+.portal-header .brand small { margin-top: 3px; color: var(--muted); font-size: 10px; font-weight: 400; letter-spacing: 0; }
+.portal-account .avatar { width: 32px; height: 32px; font-size: 11px; }
+.portal-account strong { max-width: 180px; font-size: 11px; font-weight: 700; }
+.portal-account .icon-button { width: 32px; height: 32px; border-radius: 8px; color: var(--primary); }
+.portal-page .portal-main { width: min(1140px, calc(100% - 48px)); margin: 27px auto 105px; min-height: calc(100dvh - 204px); }
+.portal-page .portal-heading { margin: 0 0 19px; }
+.portal-page .portal-heading h1 { margin-bottom: 8px; font-size: 27px; font-weight: 800; letter-spacing: -.035em; line-height: 1.25; }
+.portal-heading > p:last-child { font-size: 12px; }
+.portal-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 10px; color: var(--muted); font-size: 10px; }
+.portal-breadcrumb svg { width: 13px; height: 13px; color: var(--primary); }
+.portal-page .content-card, .portal-page .info-card { border: 1px solid var(--border); border-radius: 13px; box-shadow: none; }
+.portal-page .content-card { padding: 22px; }
+.portal-page .booking-layout { grid-template-columns: minmax(0, 1.85fr) minmax(285px, .95fr); gap: 22px; }
+.portal-page .booking-step { gap: 13px; margin: 0; }
+.portal-page .step-title { gap: 10px; margin: 0; }
+.portal-page .step-title > span { display: grid; place-items: center; width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%; background: var(--primary); color: white; font-size: 12px; font-weight: 700; }
+.portal-page .step-title h2 { font-size: 14px; font-weight: 800; letter-spacing: -.02em; }
+.portal-page .step-title p { margin-top: 3px; font-size: 11px; }
+.portal-page .step-divider { padding-top: 16px; border-top: 1px solid var(--border); }
+.portal-service-list { gap: 9px; }
+.portal-service-choice { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; min-height: 60px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; background: white; color: var(--ink); text-align: left; cursor: pointer; }
+.portal-service-choice:hover { border-color: #94b0df; background: #f8faff; }
+.portal-service-choice.selected { border-color: #2863c6; background: #f4f7fc; box-shadow: inset 0 0 0 .5px #2863c6; }
+.portal-service-icon { display: grid; width: 31px; height: 34px; place-items: center; flex: 0 0 31px; border-radius: 8px; background: #f3f6fb; color: var(--primary); }
+.selected .portal-service-icon { background: #e5ecf8; }
+.portal-service-icon svg { width: 16px; height: 16px; }
+.portal-service-details { min-width: 0; flex: 1; }
+.portal-service-details strong, .portal-service-details small { display: block; overflow-wrap: anywhere; }
+.portal-service-details strong { font-size: 12px; font-weight: 700; }
+.portal-service-details small { margin-top: 2px; color: var(--muted); font-size: 10px; }
+.portal-service-choice .portal-service-price { flex: 0 0 auto; color: var(--primary-dark); font-size: 11px; font-weight: 700; white-space: nowrap; }
+.service-radio { display: grid; place-items: center; flex: 0 0 16px; width: 16px; height: 16px; border: 1px solid var(--border); border-radius: 50%; color: transparent; font-size: 10px; }
+.selected .service-radio { border-color: var(--primary); background: var(--primary); color: white; }
+.portal-date-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.portal-date-heading p { margin: 0; color: var(--ink); font-size: 11px; font-weight: 600; }
+.portal-date-heading > div { display: flex; flex-shrink: 0; gap: 5px; }
+.portal-date-heading .icon-button { width: 28px; height: 28px; border-radius: 8px; color: var(--primary); font-size: 21px; }
+.portal-page .date-choice-list { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; }
+.portal-page .date-choice-list > p { grid-column: 1 / -1; }
+.portal-page .date-choice { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 0; padding: 7px 3px; border-radius: 8px; color: var(--ink); line-height: 1.4; }
+.portal-page .date-choice small { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.portal-page .date-choice strong { font-size: 18px; font-weight: 800; }
+.portal-page .date-choice.selected { border-color: var(--primary); background: var(--primary); color: white; }
+.portal-page .date-choice.selected small { color: #e1ebff; }
+.portal-page .date-choice:disabled { background: #f8f9fb; opacity: .4; }
+.portal-page .time-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.portal-page .time-choice-grid > p { grid-column: 1 / -1; margin: 0; font-size: 11px; }
+.portal-time-period { min-width: 0; }
+.portal-time-period h3 { margin: 0 0 7px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.portal-time-period > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.portal-page .time-choice { display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 34px; padding: 7px 3px; border-radius: 7px; color: var(--ink); font-size: 10px; }
+.portal-page .time-choice.selected { background: var(--primary); color: white; }
+.time-choice > span { display: none; font-size: 8px; }
+.time-choice.selected > span { display: inline; }
+.portal-page .booking-note { margin: 0; padding-top: 3px; color: var(--muted); font-size: 11px; }
+.booking-note summary { width: fit-content; padding: 5px 0; cursor: pointer; }
+.booking-note label { display: grid; gap: 5px; margin-top: 7px; }
+.booking-note textarea { padding: 10px; border-color: var(--border); border-radius: 8px; font-size: 12px; }
+.booking-sidebar { position: sticky; top: 92px; display: grid; gap: 14px; min-width: 0; }
+.portal-page .booking-summary { position: static; margin: 0; padding: 23px 20px; }
+.booking-summary .eyebrow { margin-bottom: 14px; color: var(--primary-dark); font-size: 9px; letter-spacing: .04em; }
+.portal-page .booking-summary h2 { margin: 0 0 4px; font-size: 19px; font-weight: 800; overflow-wrap: anywhere; }
+.booking-summary > .muted { margin: 0 0 19px; font-size: 11px; }
+.portal-summary-slot { display: flex; align-items: center; gap: 10px; min-height: 66px; padding: 14px 0; border-block: 1px solid var(--border); }
+.portal-summary-icon { display: grid; place-items: center; width: 35px; height: 35px; flex: 0 0 35px; border-radius: 9px; background: #e6edf8; color: var(--primary); }
+.portal-summary-icon svg { width: 17px; height: 17px; }
+.portal-summary-slot strong { display: block; font-size: 11px; font-weight: 700; }
+.portal-summary-slot strong::first-letter { text-transform: uppercase; }
+.portal-summary-slot small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+.portal-summary-total { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 15px 0; }
+.portal-summary-total > span { color: var(--muted); font-size: 11px; }
+.portal-summary-total > strong { font-size: 19px; font-weight: 800; }
+.portal-page .button { min-height: 42px; padding: 10px 17px; border-radius: 8px; font-size: 12px; }
+.portal-page .button-primary { background: var(--primary); box-shadow: none; }
+.portal-page .button-primary:hover { background: var(--primary-dark); }
+.portal-page .button-small { min-height: 34px; padding: 7px 12px; font-size: 11px; }
+.portal-summary-note { display: flex; align-items: start; gap: 8px; margin: 12px 0 0; padding: 12px 10px; border-radius: 7px; background: #f4f7fc; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.portal-summary-note svg { width: 13px; height: 13px; margin-top: 2px; color: var(--primary); }
+.booking-summary .form-message:empty { display: none; }
+.portal-follow-card { display: flex; width: 100%; align-items: center; gap: 11px; padding: 17px 15px; border: 1px solid var(--border); border-radius: 11px; background: white; text-align: left; cursor: pointer; }
+.portal-follow-card:hover { border-color: #94b0df; }
+.portal-follow-card > span:nth-child(2) { flex: 1; }
+.portal-follow-card strong { display: block; color: var(--ink); font-size: 11px; }
+.portal-follow-card small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+.portal-follow-card > span:last-child svg { width: 14px; color: var(--muted); }
+.portal-page .portal-bottom-nav { gap: 6px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); border-top: 0; background: white; }
+.portal-page .portal-bottom-nav button { min-width: 114px; min-height: 46px; flex-direction: row; justify-content: center; gap: 9px; padding: 10px 18px; border-radius: 9px; color: #607699; font-size: 11px; font-weight: 500; }
+.portal-page .portal-bottom-nav button.active { background: #e5ecf7; color: var(--primary); font-weight: 800; }
+.portal-bottom-nav svg { width: 16px; height: 16px; }
+.portal-page .portal-welcome { border-radius: 14px; background: linear-gradient(118deg, #203768, #4066a0); }
+.portal-page .portal-welcome h1 { font-weight: 700; font-size: clamp(27px, 4vw, 38px); }
+.portal-page .portal-welcome .button { background: white; color: var(--primary-dark); }
+.portal-info-grid h3 { font-size: 14px; }
+.portal-page .patient-appointment-card { display: flex; align-items: start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.patient-appointment-card:last-child { border-bottom: 0; }
+.appointment-date-block { display: grid; min-width: 64px; gap: 3px; padding: 10px 6px; border-radius: 10px; background: var(--primary-soft); text-align: center; }
+.appointment-date-block strong { font-size: 25px; line-height: 1.2; }
+.appointment-date-block span { font-size: 9px; }
+.patient-appointment-info { flex: 1; min-width: 0; }
+.patient-appointment-info h3 { font-size: 14px; }
+.patient-appointment-info p { margin-bottom: 5px; font-size: 12px; line-height: 1.8; }
+.patient-appointment-info small { overflow-wrap: anywhere; }
+.appointment-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.portal-page .next-appointment { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; }
+.next-appointment > div { flex: 1; min-width: 190px; }
+.next-appointment p { margin: 5px 0; }
+.portal-page .profile-card { max-width: 800px; }
+.portal-page .cookie-settings { bottom: 80px; font-size: 10px; }
+/* Minhas consultas */
+.portal-page .consultations-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.consultations-heading > div { flex: 1 1 170px; }
+.portal-page .consultations-heading h1 { margin-bottom: 9px; font-size: clamp(23px, 3vw, 30px); }
+.consultations-heading p { margin: 0; font-size: 12px; }
+.consultations-heading .button { flex: 0 0 auto; }
+#consultationsFeedback:empty { display: none; }
+.consultations-featured { margin-bottom: 22px; padding: 24px; border-radius: 15px; background: #223b6b; color: white; box-shadow: 0 5px 18px #20376809; }
+.consultations-featured-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.consultations-featured-heading > span:first-child { display: inline-flex; align-items: center; gap: 8px; color: #e5edff; font-size: 12px; font-weight: 700; }
+.consultations-featured-heading svg { width: 16px; height: 16px; }
+.consultations-featured-heading .status-pill { padding: 6px 11px; font-size: 10px; font-weight: 600; }
+.consultations-featured-body { display: flex; align-items: center; gap: 18px; }
+.consultation-date-tile { display: flex; width: 49px; min-width: 49px; min-height: 54px; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 7px 4px; border-radius: 9px; background: #edf2fa; color: var(--primary); }
+.consultation-date-tile strong { font-size: 21px; font-weight: 800; line-height: 1.15; }
+.consultation-date-tile small { font-size: 9px; line-height: 1.4; }
+.consultation-date-tile small:last-child { text-transform: uppercase; }
+.consultation-date-featured { width: 82px; min-width: 82px; min-height: 95px; gap: 4px; padding: 12px 6px; border-radius: 12px; background: white; }
+.consultation-date-featured strong { font-size: 32px; }
+.consultation-date-featured small:first-child { text-transform: uppercase; }
+.consultation-date-featured small:last-child { color: var(--muted); font-size: 9px; text-transform: none; }
+.consultations-featured-info { min-width: 0; flex: 1; }
+.consultations-featured-info h2 { margin: 0 0 12px; color: white; font-size: clamp(18px, 2vw, 23px); font-weight: 800; overflow-wrap: anywhere; }
+.consultations-featured-info p { display: flex; align-items: center; gap: 7px; margin: 7px 0 0; color: #e0e9fa; font-size: 12px; }
+.consultations-featured-info svg { width: 14px; height: 14px; }
+.consultations-featured-actions { display: flex; flex: 0 0 auto; flex-direction: column; align-items: stretch; gap: 5px; }
+.portal-page .consultations-featured-actions .button { min-height: 40px; padding: 10px 18px; border: 1px solid #e0e7f4; border-radius: 8px; background: white; color: var(--primary-dark); font-size: 11px; }
+.consultations-featured-actions .button svg { width: 14px; height: 14px; }
+.portal-page .consultations-featured-actions .text-button { justify-content: center; padding: 5px 0; color: white; font-size: 10px; font-weight: 600; }
+.consultations-featured-actions .text-button:hover { color: #cbddff; }
+.consultations-featured-actions .text-button svg { width: 12px; height: 12px; }
+.consultations-featured-note { display: flex; align-items: flex-start; gap: 8px; margin: 20px 0 0; padding-top: 17px; border-top: 1px solid #ffffff30; color: #d4e1f8; font-size: 10px; line-height: 1.7; }
+.consultations-featured-note svg { width: 13px; height: 13px; flex: 0 0 13px; margin-top: 2px; }
+.consultations-featured-empty { display: flex; align-items: center; gap: 18px; padding: 9px 0; }
+.consultations-featured-empty > div { flex: 1; }
+.consultations-featured-empty h2 { color: white; font-size: 21px; }
+.consultations-featured-empty p { margin: 8px 0 0; color: #d4e1f8; font-size: 12px; }
+.consultations-featured-empty > .button { background: white; color: var(--primary-dark); }
+.consultations-featured-icon { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border: 1px solid #ffffff30; border-radius: 14px; background: #ffffff12; }
+.consultations-featured-icon svg { width: 22px; height: 22px; }
+.consultations-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); align-items: start; gap: 20px; }
+.portal-page .consultations-layout > .content-card { min-width: 0; margin: 0; padding: 22px; }
+.consultations-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 21px; }
+.consultations-card-heading h2 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+.consultations-card-heading > .muted { font-size: 11px; }
+.consultations-card-heading svg { width: 16px; height: 16px; color: #7f92b0; }
+.consultations-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+.consultations-tabs button { padding: 7px 13px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 500; cursor: pointer; }
+.consultations-tabs button[aria-selected="true"] { background: #f1f1ef; color: #394355; font-weight: 800; }
+.consultations-tabs button:hover { background: #edf2fa; color: var(--primary); }
+.consultations-agenda { min-height: 350px; }
+.portal-page .consultations-clear-date { margin-top: 8px; font-size: 11px; }
+.consultations-list { min-height: 170px; }
+.consultation-row { position: relative; display: flex; align-items: center; gap: 13px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+.consultation-row:last-child { border-bottom: 0; }
+.consultation-row-info { min-width: 0; flex: 1; }
+.consultation-row-title { padding: 0; border: 0; background: none; color: var(--ink); font-size: 12px; font-weight: 700; line-height: 1.5; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
+.consultation-row-title:hover { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+.consultation-row-info p { margin: 4px 0; color: var(--muted); font-size: 11px; }
+.consultation-row-info .status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 0; border-radius: 0; background: transparent; font-size: 10px; font-weight: 500; white-space: normal; }
+.consultation-row-info .status-pill::before { width: 5px; height: 5px; flex: 0 0 5px; border: 1px solid currentColor; border-radius: 50%; content: ''; }
+.consultation-row-menu { position: relative; align-self: center; flex: 0 0 auto; }
+.consultation-row-menu > summary { display: grid; place-items: center; width: 32px; height: 36px; border-radius: 7px; color: #71829a; cursor: pointer; list-style: none; }
+.consultation-row-menu > summary::-webkit-details-marker { display: none; }
+.consultation-row-menu > summary svg { width: 17px; height: 17px; transform: rotate(90deg); }
+.consultation-row-menu[open] > summary, .consultation-row-menu > summary:hover { background: #edf2fa; color: var(--primary); }
+.consultation-row-menu > div { position: absolute; top: 40px; right: 0; z-index: 4; display: grid; gap: 3px; width: 168px; padding: 7px; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: 0 9px 30px #2037681a; }
+.portal-page .consultation-row-menu > div > button { justify-content: flex-start; min-height: 36px; padding: 8px 10px; border: 0; border-radius: 5px; background: none; color: var(--ink); font-size: 11px; font-weight: 500; text-align: left; }
+.portal-page .consultation-row-menu > div > button:hover { background: #f1f5fb; }
+.portal-page .consultation-row-menu > div > .consultation-cancel { color: #a34d52; }
+.consultations-month-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.consultations-month-controls strong { font-size: 11px; font-weight: 600; }
+.consultations-month-controls .icon-button { width: 28px; height: 28px; border-radius: 7px; color: var(--primary); font-size: 20px; }
+.consultations-weekdays, .consultations-calendar-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.consultations-weekdays { margin-bottom: 9px; color: #8899b1; text-align: center; font-size: 10px; }
+.consultations-calendar-day { display: grid; place-items: center; width: 100%; min-width: 0; height: 35px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: none; color: #7b90b0; font-size: 11px; cursor: pointer; }
+.consultations-calendar-day:disabled { cursor: default; opacity: 1; }
+.consultations-calendar-day[aria-current="date"] { border-color: #c9d7ec; font-weight: 800; }
+.consultations-calendar-day.has-consultation { background: var(--primary); color: white; font-weight: 800; }
+.consultations-calendar-day.has-consultation:hover { background: var(--primary-dark); }
+.consultations-calendar-day.selected { box-shadow: 0 0 0 2px white, 0 0 0 4px #94b4e2; }
+.consultations-calendar-legend { display: flex; align-items: center; gap: 7px; margin: 20px 0 19px; color: var(--muted); font-size: 10px; }
+.consultations-calendar-legend > span:first-child { width: 7px; height: 7px; border-radius: 2px; background: var(--primary); }
+.consultations-help { display: flex; align-items: flex-start; gap: 8px; padding-top: 17px; border-top: 1px solid var(--border); }
+.consultations-help > span { margin-top: 1px; color: var(--primary); }
+.consultations-help svg { width: 13px; height: 13px; }
+.consultations-help strong { font-size: 11px; font-weight: 700; }
+.consultations-help p { margin: 5px 0 0; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.consultations-empty { display: grid; justify-items: center; padding: 38px 10px; text-align: center; }
+.consultations-empty > svg { width: 27px; height: 27px; margin-bottom: 12px; color: #9aacc8; }
+.consultations-empty h3 { margin-bottom: 6px; font-size: 14px; }
+.consultations-empty p { max-width: 300px; margin: 0; font-size: 11px; }
+.consultation-detail-dialog { width: min(580px, calc(100% - 24px)); background: white; }
+.consultation-detail-heading { display: grid; justify-items: start; gap: 9px; }
+.consultation-detail-heading h3 { margin: 0; font-size: 20px; }
+.consultation-detail-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 8px 0; }
+.consultation-detail-fields dt { color: var(--muted); font-size: 11px; }
+.consultation-detail-fields dd { margin: 4px 0 0; font-size: 13px; font-weight: 600; }
+.consultation-detail-note { padding: 16px; border-radius: 9px; background: #f3f6fb; }
+.consultation-detail-note h3 { font-size: 12px; }
+.consultation-detail-note p { margin: 0; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.consultation-detail-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.consultation-detail-dialog .patient-record-content > .muted { margin: 0; font-size: 11px; }
+@media (max-width: 680px) {
+  .consultations-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .consultations-featured { padding: 20px; }
+  .consultations-featured-body { flex-wrap: wrap; gap: 13px; }
+  .consultations-featured-info { flex-basis: calc(100% - 100px); }
+  .consultations-featured-actions { width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; }
+  .consultations-featured-empty { flex-wrap: wrap; gap: 14px; }
+  .consultations-featured-empty > div { flex-basis: calc(100% - 70px); }
+  .consultations-featured-empty > .button { margin-left: 62px; }
+  .consultations-agenda { min-height: 260px; }
+  .consultations-calendar-day { height: 40px; }
+  .consultations-tabs button { min-height: 38px; }
+  .consultation-row-menu > summary { width: 36px; height: 42px; }
+}
+@media (max-width: 480px) {
+  .portal-page .consultations-heading { gap: 10px; margin-bottom: 19px; }
+  .portal-page .consultations-heading h1 { font-size: 23px; }
+  .consultations-heading p { font-size: 11px; }
+  .consultations-heading .button { min-height: 38px; padding: 9px 10px; font-size: 10px; }
+  .consultations-heading .button svg { width: 13px; height: 13px; }
+  .consultations-featured { padding: 16px; border-radius: 12px; }
+  .consultations-featured-heading { gap: 8px; margin-bottom: 16px; }
+  .consultations-featured-heading > span:first-child { gap: 6px; font-size: 10px; }
+  .consultations-featured-heading .status-pill { padding: 5px 8px; font-size: 8px; }
+  .consultation-date-featured { width: 67px; min-width: 67px; min-height: 84px; }
+  .consultation-date-featured strong { font-size: 28px; }
+  .consultations-featured-info h2 { font-size: 17px; }
+  .consultations-featured-info p { font-size: 10px; }
+  .consultations-featured-note { margin-top: 16px; padding-top: 14px; font-size: 9px; }
+  .portal-page .consultations-layout > .content-card { padding: 18px 16px; }
+  .consultations-card-heading h2 { font-size: 15px; }
+  .consultations-card-heading > .muted { font-size: 10px; }
+  .consultation-row { gap: 10px; padding: 18px 0; }
+  .consultation-row-info p { font-size: 10px; }
+  .consultation-row-info .status-pill { font-size: 9px; }
+}
+.not-found-page { display: grid; place-items: center; min-height: 100dvh; padding: 24px; }
+.not-found-card { width: min(580px, 100%); padding: clamp(24px, 5vw, 48px); border: 1px solid var(--border); border-radius: 20px; background: white; }
+.not-found-code { margin: 35px 0 12px; color: #2354a4; font-size: clamp(70px, 14vw, 110px); font-weight: 800; letter-spacing: -.07em; line-height: 1; }
+.not-found-card h1 { font-size: clamp(24px, 5vw, 33px); }
+.not-found-card p:not(.not-found-code) { margin-bottom: 25px; font-size: 14px; }
+.not-found-card .button { border-radius: 9px; }
+.not-found-card > .text-button { margin-top: 16px; }
+@media (max-width: 800px) {
+  .portal-page .booking-layout { grid-template-columns: minmax(0, 1fr); }
+  .booking-sidebar { position: static; }
+  .portal-page .portal-main { width: min(640px, calc(100% - 32px)); }
+  .portal-header .brand { max-width: 65%; font-size: 11px; }
+  .portal-account strong { display: none; }
+  .portal-page .content-card { padding: 20px; }
+  .portal-page .portal-info-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .portal-page .portal-header { min-height: 66px; gap: 10px; padding: 12px 16px; }
+  .portal-header .brand { max-width: none; flex: 1; font-size: 10px; gap: 8px; }
+  .portal-header .brand-mark { width: 29px; height: 29px; flex-basis: 29px; }
+  .portal-account { flex-shrink: 0; gap: 6px; }
+  .portal-account .avatar { display: none; }
+  .portal-page .portal-main { margin-top: 22px; }
+  .portal-page .portal-heading h1 { font-size: 25px; }
+  .portal-page .content-card { padding: 16px; }
+  .portal-service-choice { gap: 8px; padding: 10px 8px; }
+  .portal-service-icon { width: 27px; flex-basis: 27px; }
+  .portal-service-details strong { font-size: 11px; }
+  .portal-service-choice .portal-service-price { font-size: 10px; }
+  .portal-page .date-choice-list { gap: 4px; }
+  .portal-page .time-choice-grid { gap: 14px; grid-template-columns: 1fr; }
+  .portal-page .time-choice { min-height: 40px; font-size: 11px; }
+  .portal-page .portal-bottom-nav { padding-inline: 8px; }
+  .portal-page .portal-bottom-nav button { min-width: 0; min-height: 48px; flex: 1; flex-direction: column; gap: 4px; padding: 7px 4px; font-size: 10px; }
+  .portal-page .patient-appointment-card { gap: 10px; }
+  .appointment-date-block { min-width: 49px; }
+  .portal-date-heading p { font-size: 10px; }
+  .portal-page .cookie-settings { bottom: 84px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-panel.active { animation: none; }
+}

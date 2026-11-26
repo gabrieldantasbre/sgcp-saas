@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203768">
+  <meta name="description" content="Acesse o portal de pacientes do sistema de gestão.">
+  <title data-brand-title="Acessar portal">Acessar portal | Clínica Podológica</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/brand-mark.svg">
+  <script src="/theme.js"></script>
+  <script src="/config.js"></script>
+  <script defer src="/branding.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/clinic-site.css">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/accessibility.css">
+</head>
+<body class="site-page podology-login-page" data-page="login">
+  <a class="podology-skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="podology-header podology-login-header">
+    <div class="podology-header-inner">
+      <a class="podology-brand" href="/" aria-label="Página inicial">
+        <img src="/assets/brand-mark.svg" width="48" height="48" alt="">
+        <span class="podology-brand-copy"><strong data-brand="productName">SGCP</strong><small data-brand="clinicName">Clínica Podológica</small></span>
+      </a>
+      <a class="podology-login-back" href="/">← <span>Voltar ao site</span></a>
+    </div>
+  </header>
+
+  <main class="podology-login-main" id="conteudo">
+    <div class="podology-wrap podology-login-layout">
+      <section class="podology-login-visual" aria-labelledby="loginWelcome">
+        <img src="/assets/clinic-illustration.svg" alt="Ilustração de calendário para acompanhamento de consultas" width="960" height="720">
+        <div class="podology-login-visual-overlay"></div>
+        <div class="podology-login-visual-copy">
+          <p class="podology-eyebrow">Portal do paciente</p>
+          <h1 id="loginWelcome">Seu cuidado continua por aqui.</h1>
+          <p>Acompanhe suas consultas e encontre com facilidade as informações da sua conta.</p>
+        </div>
+        <div class="podology-login-visual-note"><span aria-hidden="true">✓</span><div><strong>Um espaço feito para você</strong><small>Praticidade para acompanhar seus cuidados</small></div></div>
+      </section>
+
+      <section class="podology-login-content" aria-labelledby="loginTitle">
+        <p class="podology-eyebrow">Acesso do paciente</p>
+        <h2 id="loginTitle">Que bom ter você de volta.</h2>
+        <p class="podology-login-intro">Entre com seu e-mail ou CPF e a senha cadastrada para acessar seu portal.</p>
+
+        <form id="loginForm" class="podology-login-form">
+          <label for="loginEmail">E-mail ou CPF</label>
+          <input id="loginEmail" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required maxlength="160" placeholder="Seu e-mail ou CPF">
+
+          <label for="loginPassword">Senha</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" required maxlength="128" placeholder="Digite sua senha">
+
+          <label class="podology-login-remember"><input id="keepConnected" type="checkbox"><span>Manter conectado por 30 dias</span></label>
+          <p class="form-message" id="loginMessage" role="alert" aria-live="polite"></p>
+          <button class="podology-button podology-button-primary podology-login-submit" type="submit">Entrar no portal <span aria-hidden="true">→</span></button>
+          <p class="podology-login-register">Ainda não tem conta? <a href="/cadastro.html">Cadastre-se como paciente</a></p>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/script.js"></script>
+  <script defer src="/cookies.js"></script>
+  <script defer src="/accessibility.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+.utility-actions { display: inline-flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+.utility-button { display: inline-grid; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; border: 1px solid transparent; border-radius: 9px; background: transparent; color: #203768; cursor: pointer; text-decoration: none; }
+.utility-button svg { display: block; width: 21px; height: 21px; }
+.utility-button:hover { background: #e8eef8; color: #1c4e9d; }
+.utility-button[aria-pressed="true"] { background: #273c56; color: #c7ddff; }
+.page-utilities { display: flex; justify-content: flex-end; grid-column: 1 / -1; margin-bottom: 8px; }
+.topbar-account .utility-actions { margin-left: -8px; }
+.podology-header-inner.has-utilities { grid-template-columns: auto minmax(0, 1fr) auto auto; gap: clamp(10px, 1.3vw, 24px); }
+.has-utilities > .podology-brand { grid-column: 1; grid-row: 1; }
+.has-utilities > .podology-nav { grid-column: 2; grid-row: 1; }
+.has-utilities > .podology-header-actions { grid-column: 3; grid-row: 1; }
+.has-utilities > .utility-actions { grid-column: 4; grid-row: 1; }
+.podology-login-header .has-utilities { grid-template-columns: minmax(0, 1fr) auto auto; }
+.podology-login-header .has-utilities > .utility-actions { grid-column: 2; }
+.podology-login-header .podology-login-back { grid-column: 3; grid-row: 1; }
+
+html[data-theme="dark"] { color-scheme: dark; --theme-bg: #14191f; --theme-surface: #1d242d; --theme-raised: #27313d; --theme-text: #e8edf5; --theme-muted: #b0bdd0; --theme-border: #3b4859; --theme-link: #9bc3ff; }
+html[data-theme="dark"] body {
+  --ink: var(--theme-text); --muted: var(--theme-muted); --primary: var(--theme-link); --primary-dark: #c2d9ff; --primary-soft: #253a54; --surface: var(--theme-surface); --surface-soft: var(--theme-raised); --canvas: var(--theme-bg); --border: var(--theme-border); --shadow: 0 18px 45px #0003;
+  --podology-navy: var(--theme-text); --podology-blue: var(--theme-link); --podology-blue-light: #9bc3ff; --podology-cream: var(--theme-bg); --podology-muted: var(--theme-muted); --podology-line: var(--theme-border);
+  background: var(--theme-bg); color: var(--theme-text);
+}
+html[data-theme="dark"] body :is(.internal-topbar, .internal-bottom-nav, .portal-header, .portal-bottom-nav, .podology-header-inner, .podology-nav, .public-booking-header, .content-card, .metric-card, .info-card, .auth-layout, .auth-card, .privacy-document, .not-found-card, .public-booking-card, .public-booking-summary, dialog, .notification-panel, .notification-item, .patient-record-item, .patient-profile-overview, .patient-profile-metric, .global-search-results, .profile-list-item, .podology-care-card, .podology-faq-item, .podology-safety-card, .podology-experience-card, .podology-login-layout, .podology-login-visual-note) { background: var(--theme-surface); color: var(--theme-text); border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(.internal-sidebar, .podology-footer) { background: #192330; color: var(--theme-text); border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(.internal-nav .nav-item, .sidebar-user-text strong, .internal-brand strong, .topbar-system-name, .topbar-account-copy strong, .podology-brand-copy strong, .podology-nav a, .portal-service-choice, .calendar-day-number, .patient-record-field strong) { color: var(--theme-text); }
+html[data-theme="dark"] body :is(h1, h2, h3, h4, label, legend, .card-heading, .form-stack, .step-title) { color: var(--theme-text); }
+html[data-theme="dark"] body :is(p, small, .muted, .small-note, .dashboard-metric-label small, .portal-service-details small, .table-subtitle, .booking-weekdays, .booking-calendar-legend, .booking-summary-heading p, .public-booking-summary dt, .booking-summary-footer p, .booking-payment-option small, .podology-brand-copy small, .podology-footer p, .podology-footer a) { color: var(--theme-muted); }
+html[data-theme="dark"] body a { color: var(--theme-link); }
+html[data-theme="dark"] body :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { background: #171e27; color: var(--theme-text); border-color: #536174; }
+html[data-theme="dark"] body input::placeholder, html[data-theme="dark"] body textarea::placeholder { color: #a2afc1; opacity: 1; }
+html[data-theme="dark"] body :is(.button-outline, .icon-button, .utility-button, .cookie-settings, .accessibility-tools button, .calendar-view-button, .time-choice, .date-choice, .portal-date-choice, .booking-calendar-day, .booking-calendar-heading button, .consultations-calendar-day, .consultations-tabs button, .booking-payment-option, .podology-button-light, .podology-button-portal) { background: var(--theme-surface); color: var(--theme-link); border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(.button-primary, .podology-button-primary, .podology-button-dark, .booking-calendar-day.selected, .time-choice.selected, .portal-date-choice.selected, .date-choice.selected, .consultations-calendar-day.selected) { background: #2d65b7; color: #fff !important; border-color: #5689d3; }
+html[data-theme="dark"] body :is(.text-button, .eyebrow, .booking-eyebrow, .podology-eyebrow, .podology-care-price, .podology-care-link, .pending-row strong, .internal-page-heading .eyebrow) { color: var(--theme-link); }
+html[data-theme="dark"] body :is(.quick-action, .pending-row, .global-search-field, .calendar-day, .booking-calendar, .booking-summary-footer, .booking-payment-note, .guardian-fields, .privacy-notice, .patient-record-shortcut, .profile-completion-note, .appointment-detail-observation, .consultation-detail-note, .dashboard-empty, .consultations-tabs, .patient-record-field, .profile-default-tag) { background: var(--theme-raised); color: var(--theme-text); border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(.quick-action strong, .global-search-field input, .pending-row, .patient-record-field strong, .booking-progress button, .public-booking-summary dd) { color: var(--theme-text); }
+html[data-theme="dark"] body :is(.quick-action-icon, .dashboard-metric-label > span, .booking-summary-icon, .portal-service-icon, .info-icon, .avatar, .notification-item-icon, .podology-portal-button-icon) { background: #293e59; color: #b8d4ff; }
+html[data-theme="dark"] #overviewStats .metric-card { background: var(--theme-surface); border-color: var(--theme-border); }
+html[data-theme="dark"] #overviewStats .metric-card strong { color: var(--theme-text); }
+html[data-theme="dark"] #overviewStats .metric-card small { color: var(--theme-muted); }
+html[data-theme="dark"] body :is(table, th, td, .card-heading, .step-divider, .account-removal, .notification-heading, .patient-record-section, .booking-progress, .booking-summary-heading) { border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(thead, th, .booking-progress) { background: #25303c; color: var(--theme-muted); }
+html[data-theme="dark"] body :is(tr:hover td, .notification-item:hover, .global-search-result:hover, .quick-action:hover, .utility-button:hover, .internal-nav .nav-item:hover) { background: #2d3c50; }
+html[data-theme="dark"] body :is(.portal-service-choice, .booking-calendar-day, .time-choice, .consultations-calendar-day) { border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(.portal-service-choice.selected, .portal-service-choice:hover, .internal-nav .nav-item.active, .portal-bottom-nav button.active, .internal-bottom-nav button.active, .consultations-tabs button[aria-selected="true"], .calendar-view-button.active, .booking-payment-option:has(input:checked)) { background: #293f5e; color: #c7ddff; border-color: #8bb8ff; }
+html[data-theme="dark"] body :is(.status-pending, .status-warning) { background: #473b21; color: #ffe0a2; }
+html[data-theme="dark"] body :is(.status-confirmed, .status-neutral) { background: #253e60; color: #c5dcff; }
+html[data-theme="dark"] body :is(.status-done, .toast-success) { background: #204637; color: #b5f1ce; }
+html[data-theme="dark"] body :is(.status-cancelled, .form-message.error) { background: #482b32; color: #ffbdc8; }
+html[data-theme="dark"] body .form-message.success { color: #a4e5c2; }
+html[data-theme="dark"] body :is(.cookie-banner, .cookie-actions .button) { background: var(--theme-surface); color: var(--theme-text); border-color: #8192ab; }
+html[data-theme="dark"] body :is(.auth-brand, .portal-welcome, .consultations-featured) { background: linear-gradient(135deg, #233c61, #263448); color: #f1f6ff; }
+html[data-theme="dark"] body :is(.auth-brand p, .auth-brand a, .portal-welcome p, .consultations-featured p, .consultations-featured strong) { color: #d5e3f7; }
+html[data-theme="dark"] body :is(.podology-promise, .podology-care-section, .podology-faq-section, .podology-social-section, .steps-section) { background: var(--theme-bg); }
+html[data-theme="dark"] body :is(.podology-hero-backplate, .podology-clinic-section, .podology-final-cta, .podology-hero-media::before) { background: #22334a; }
+html[data-theme="dark"] body .podology-login-intro { color: var(--theme-muted) !important; }
+html[data-theme="dark"] body .skeleton-block { background: linear-gradient(100deg, #293440 20%, #3b4859 45%, #293440 70%); background-size: 250% 100%; }
+html[data-theme="dark"] body :is(.portal-service-choice, .portal-service-option, .portal-follow-card, .appointment-card, .patient-record-section, .consultation-date-featured, .consultation-row-menu > div) { background: var(--theme-surface); color: var(--theme-text); border-color: var(--theme-border); }
+html[data-theme="dark"] body :is(td, td strong, .portal-service-details strong, .portal-follow-card strong, .consultation-date-featured strong) { color: var(--theme-text); }
+html[data-theme="dark"] body :is(.heading-actions .today-label, .subnav button.active, .subnav button:hover) { background: var(--theme-raised); color: var(--theme-muted); border-color: var(--theme-border); }
+html[data-theme="dark"] body .brand-mark { background: #2d65b7; color: #fff; }
+html[data-theme="dark"] body .step-title > span, html[data-theme="dark"] body .portal-service-choice.selected .service-radio { background: #2d65b7; color: #fff; }
+html[data-theme="dark"] body :is(.portal-bottom-nav button, .internal-bottom-nav button) { color: var(--theme-muted); }
+html[data-theme="dark"] body :is(.portal-bottom-nav button.active, .internal-bottom-nav button.active, .portal-service-choice.selected) { background: #293f5e; color: #c7ddff; border-color: #8bb8ff; }
+html[data-theme="dark"] body :focus-visible { outline-color: #a5caff; }
+html[data-theme="dark"] ::selection { background: #365780; color: #fff; }
+@media (max-width: 760px) {
+  .utility-button { width: 36px; height: 40px; flex-basis: 36px; }
+  .topbar-account .utility-actions { margin-left: 0; }
+  .internal-topbar .topbar-account { gap: 4px; margin-left: 0; }
+  .portal-account { gap: 4px; }
+  .portal-header > .brand { min-width: 0; max-width: calc(100% - 130px); }
+  .portal-account > .avatar { display: none; }
+  .podology-header-inner.has-utilities { grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px; }
+  .has-utilities > .utility-actions { grid-column: 2; grid-row: 1; }
+  .has-utilities > .podology-menu-toggle { grid-column: 3; grid-row: 1; }
+  .has-utilities > .podology-header-actions { grid-column: 1 / -1; grid-row: 2; }
+  .podology-login-header .has-utilities > .utility-actions { grid-column: 2; }
+  .podology-login-header .podology-login-back { grid-column: 3; }
+  .podology-login-back span { display: none; }
+  .public-booking-header { flex-wrap: wrap; gap: 8px; }
+  .public-booking-header > .brand { flex: 1; min-width: 0; }
+  .public-booking-header > a:not(.brand) { order: 3; flex-basis: 100%; max-width: none; text-align: right; }
+}
+@media print { .utility-actions { display: none !important; } }

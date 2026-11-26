@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="820" viewBox="0 0 900 820" fill="none">
+  <defs>
+    <linearGradient id="field" x1="166" y1="90" x2="748" y2="731" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8EEE4"/>
+      <stop offset="1" stop-color="#D8E4D6"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="408" y1="264" x2="619" y2="675" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9A181"/>
+      <stop offset="1" stop-color="#C58062"/>
+    </linearGradient>
+    <filter id="shadow" x="202" y="88" width="589" height="686" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 .12 0 0 0 0 .2 0 0 0 0 .14 0 0 0 .16 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+  </defs>
+  <rect width="900" height="820" rx="52" fill="url(#field)"/>
+  <circle cx="452" cy="409" r="283" fill="#F5F3ED" fill-opacity=".64"/>
+  <circle cx="452" cy="409" r="235" stroke="#9AAD93" stroke-opacity=".42" stroke-width="1.5" stroke-dasharray="2 10"/>
+  <path d="M166 701c41-61 95-91 161-89m-109 34c17-58 48-101 93-129m-51 60c-44-10-74-34-92-71 39-8 75 1 108 27m-48 29c-6-49 5-88 34-118 21 34 27 72 15 115m-39-88c-42-11-70-33-85-67 39-8 72 1 101 27" stroke="#789177" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M710 137c-41 62-94 91-160 88m109-34c-18 58-49 101-94 128m51-60c44 10 74 34 92 71-39 8-75 0-108-27m48-29c6 49-6 88-35 118-20-34-26-72-14-115m39 88c42 11 70 33 84 67-39 8-72-1-101-27" stroke="#789177" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".72"/>
+  <g filter="url(#shadow)" transform="rotate(-13 488 435)">
+    <path d="M414 649c-53-20-72-73-51-133 17-50 58-104 75-166 11-41 9-77 6-117-2-31 14-53 38-54 28-1 42 23 41 59 18-31 48-36 68-19 20 17 18 47-2 77 28-14 54-5 65 18 12 26-3 51-28 72 29-6 51 9 57 34 8 30-13 51-43 66-8 48-37 101-75 138-42 41-94 49-151 25Z" fill="url(#skin)"/>
+    <path d="M445 232c2 25 0 50-7 76m84-92c-3 23-11 44-27 63m92-40c-10 20-24 37-44 51m87 6c-15 18-32 31-53 39" stroke="#B87056" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+    <path d="M412 634c46 11 90 2 128-28 44-35 70-84 80-132" stroke="#F1C3A3" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+    <path d="M442 367c21 15 41 19 63 12" stroke="#F3C6A8" stroke-opacity=".58" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="437" cy="213" rx="17" ry="10" transform="rotate(-14 437 213)" fill="#F5D4BD" fill-opacity=".9"/>
+    <ellipse cx="518" cy="209" rx="15" ry="9" transform="rotate(-12 518 209)" fill="#F5D4BD" fill-opacity=".9"/>
+    <ellipse cx="583" cy="250" rx="14" ry="8" transform="rotate(2 583 250)" fill="#F5D4BD" fill-opacity=".9"/>
+    <ellipse cx="626" cy="312" rx="13" ry="8" transform="rotate(15 626 312)" fill="#F5D4BD" fill-opacity=".9"/>
+  </g>
+  <circle cx="668" cy="625" r="8" fill="#BF886B"/>
+  <circle cx="693" cy="601" r="4" fill="#BF886B" fill-opacity=".65"/>
+  <circle cx="242" cy="186" r="6" fill="#BF886B" fill-opacity=".72"/>
+  <path d="M687 685h53" stroke="#82977B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M687 695h32" stroke="#82977B" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+</svg>

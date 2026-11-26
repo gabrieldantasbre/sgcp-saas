@@ -1,0 +1,216 @@
+// Integração em um banco temporário. Não usa os cadastros da clínica.
+require('dotenv').config({ quiet: true });
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Pool } = require('pg');
+const database = 'sgcp_verify_' + Date.now();
+const admin = new Pool({ host: process.env.DB_HOST || 'localhost', port: Number(process.env.DB_PORT || 5432), user: process.env.DB_USER || 'postgres', password: process.env.DB_PASSWORD, database: process.env.DB_NAME || 'sgcp' });
+let db, server;
+async function main() {
+  await admin.query('CREATE DATABASE ' + database);
+  process.env.DB_NAME = database;
+  db = require('../db');
+  await db.query(fs.readFileSync(path.join(__dirname, '../sql/schema.sql'), 'utf8'));
+  for (const file of fs.readdirSync(path.join(__dirname, '../sql/migrations')).sort()) await db.query(fs.readFileSync(path.join(__dirname, '../sql/migrations', file), 'utf8'));
+  const owner = (await db.query("INSERT INTO usuarios (nome, email, senha_hash, perfil, registro_profissional) VALUES ('Teste', 'teste@example.invalid', 'hash', 'PODOLOGA', 'TESTE') RETURNING id")).rows[0];
+  const procedure = (await db.query("INSERT INTO procedimentos (nome, descricao, valor_referencia, duracao_media_min) VALUES ('Teste', 'Teste', 10, 60) RETURNING id")).rows[0];
+  const patient = (await db.query("INSERT INTO pacientes (nome, cpf, telefone, data_nascimento) VALUES ('Paciente Teste', '52998224725', '11999999999', '1990-01-01') RETURNING id")).rows[0];
+  const { signToken } = require('../lib/auth');
+  const app = require('../server');
+  // Only this isolated test server trusts loopback to simulate different public clients.
+  app.set('trust proxy', 'loopback');
+  server = app.listen(0, '127.0.0.1'); await new Promise((resolve) => server.once('listening', resolve));
+  const url = 'http://127.0.0.1:' + server.address().port;
+  await require('./verify-branding.cjs')(url);
+  async function request(route, method = 'GET', body, cookie, clientIp) {
+    const response = await fetch(url + route, { method, headers: { 'Content-Type': 'application/json', ...(cookie ? { Cookie: cookie } : {}), ...(clientIp ? { 'X-Forwarded-For': clientIp } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
+    const data = await response.json().catch(() => ({})); return { status: response.status, data, cookie: response.headers.get('set-cookie')?.split(';')[0] };
+  }
+  const cookie = 'sgcp_session=' + signToken(owner.id, 3600);
+  const { VERSAO_TERMOS } = require('../lib/consent');
+  const aceites = { aceitouAvisoPrivacidade: true, aceitouTermos: true, versaoTermos: VERSAO_TERMOS };
+  const pais = { responsavelNome: 'Responsavel Teste', responsavelCpf: '52998224725', responsavelVinculo: 'MAE', consentimentoResponsavel: true };
+  const notFound = await fetch(url + '/pagina-inexistente');
+  assert.equal(notFound.status, 404);
+  assert((await notFound.text()).includes('Página não encontrada'));
+  assert.equal((await request('/api/inexistente')).status, 404);
+  assert.equal((await fetch(url + '/termos.html')).status, 200);
+  assert.equal((await request('/api/dashboard')).status, 401);
+  const dashboard = await request('/api/dashboard', 'GET', null, cookie);
+  assert.equal(dashboard.status, 200);
+  assert.equal(dashboard.data.atividade.length, 7);
+  assert(dashboard.data.atividade.every((day) => day.total === 0));
+  assert(dashboard.data.financeiro);
+  const day = new Date(); day.setUTCDate(day.getUTCDate() + 7); while ([0, 6].includes(day.getUTCDay())) day.setUTCDate(day.getUTCDate() + 1);
+  const data = day.toISOString().slice(0, 10);
+  assert.equal((await request('/api/agendamentos/bloqueios', 'POST', { data, inicio: '09:00', fim: '11:00' })).status, 401);
+  const block = await request('/api/agendamentos/bloqueios', 'POST', { data, inicio: '09:00', fim: '11:00' }, cookie); assert.equal(block.status, 201);
+  const available = await request('/api/agendamentos/disponibilidade?procedimentoId=' + procedure.id + '&de=' + data + '&ate=' + data);
+  assert.equal(available.status, 200); assert(!available.data.dias[0].horarios.includes('09:00')); assert(!available.data.dias[0].horarios.includes('10:00'));
+  const booking = { pacienteId: patient.id, procedimentoId: procedure.id, data, hora: '09:00' };
+  assert.equal((await request('/api/agendamentos', 'POST', booking, cookie)).status, 409);
+  assert.equal((await request('/api/agendamentos/bloqueios/' + block.data.id, 'DELETE', null, cookie)).status, 204);
+  const booked = await Promise.all([request('/api/agendamentos', 'POST', booking, cookie), request('/api/agendamentos', 'POST', booking, cookie)]);
+  assert.deepEqual(booked.map((r) => r.status).sort(), [201, 409]);
+  assert.equal((await request('/api/agendamentos/bloqueios', 'POST', { data, inicio: '09:00', fim: '11:00' }, cookie)).status, 409);
+  const id = booked.find((r) => r.status === 201).data.id;
+  assert.equal((await request('/api/agendamentos/' + id + '/status', 'PATCH', { status: 'FALTOU' }, cookie)).status, 200);
+  assert.equal((await request('/api/agendamentos', 'POST', booking, cookie)).status, 201);
+  const guest = { nome: 'Menor Teste', cpf: '11144477735', telefone: '11999999998', nascimento: '2020-01-01', procedimentoId: procedure.id, data, hora: '13:00', ...aceites };
+  assert.equal((await request('/api/agendamentos/publico', 'POST', guest)).status, 400);
+  assert.equal((await request('/api/agendamentos/publico', 'POST', { ...guest, ...pais })).status, 201);
+  assert.equal(Number((await db.query('SELECT COUNT(*) FROM consentimentos_responsaveis')).rows[0].count), 1);
+  // Public booking must distinguish identity corrections from an occupied time.
+  const returningPatient = { nome: 'Paciente Teste', cpf: '52998224725', telefone: '(11) 99999-9999', nascimento: '1990-01-01', procedimentoId: procedure.id, data, hora: '14:00', ...aceites, observacao: 'Preferência de pagamento: Pix.' };
+  const invalidCpf = await request('/api/agendamentos/publico', 'POST', { ...returningPatient, cpf: '123' });
+  assert.equal(invalidCpf.status, 400);
+  assert.equal(invalidCpf.data.codigo, 'DADOS_PACIENTE_INVALIDOS');
+  assert.equal(invalidCpf.data.campo, 'cpf');
+  const beforeCorrections = (await db.query('SELECT COUNT(*) AS total FROM agendamentos')).rows[0].total;
+  const originalPatient = (await db.query('SELECT nome, telefone, data_nascimento FROM pacientes WHERE id = $1', [patient.id])).rows[0];
+  for (const correction of [{ nome: 'Outro Nome' }, { telefone: '11988888888' }, { nascimento: '1991-01-01' }]) {
+    const mismatch = await request('/api/agendamentos/publico', 'POST', { ...returningPatient, ...correction });
+    assert.equal(mismatch.status, 409);
+    assert.equal(mismatch.data.codigo, 'DADOS_PACIENTE_DIVERGENTES');
+    assert.equal(mismatch.data.campo, undefined); // Do not disclose which registered detail matched.
+  }
+  assert.equal((await db.query('SELECT COUNT(*) AS total FROM agendamentos')).rows[0].total, beforeCorrections);
+  assert.deepEqual((await db.query('SELECT nome, telefone, data_nascimento FROM pacientes WHERE id = $1', [patient.id])).rows[0], originalPatient);
+  const corrected = await request('/api/agendamentos/publico', 'POST', returningPatient);
+  assert.equal(corrected.status, 201);
+  const saved = (await db.query('SELECT paciente_id, observacao FROM agendamentos WHERE id = $1', [corrected.data.id])).rows[0];
+  assert.equal(saved.paciente_id, patient.id);
+  assert.equal(saved.observacao, returningPatient.observacao);
+  assert.equal(Number((await db.query('SELECT COUNT(*) AS total FROM pacientes WHERE cpf = $1', [returningPatient.cpf])).rows[0].total), 1);
+  const occupied = await request('/api/agendamentos/publico', 'POST', returningPatient);
+  assert.equal(occupied.status, 409);
+  assert.equal(occupied.data.codigo, 'HORARIO_INDISPONIVEL');
+  // First visit: create the patient and appointment atomically, without login or prior registration.
+  const newcomer = { nome: 'Primeiro Atendimento', cpf: '39053344705', telefone: '+55 (11) 98888-7777', nascimento: '2002-11-06', email: 'primeiro@example.invalid', procedimentoId: procedure.id, data, hora: '15:00', ...aceites, observacao: 'Preferência de pagamento: Pix.' };
+  const newClientRequest = (body) => request('/api/agendamentos/publico', 'POST', body, null, '198.51.100.10');
+  assert.equal(Number((await db.query('SELECT COUNT(*) AS total FROM pacientes WHERE cpf = $1', [newcomer.cpf])).rows[0].total), 0);
+  const firstVisit = await newClientRequest(newcomer);
+  assert.equal(firstVisit.status, 201);
+  const createdPatient = (await db.query('SELECT id, nome, telefone, email FROM pacientes WHERE cpf = $1', [newcomer.cpf])).rows[0];
+  assert.equal(createdPatient.nome, newcomer.nome);
+  assert.equal(createdPatient.telefone, '11988887777');
+  assert.equal(createdPatient.email, newcomer.email);
+  assert.equal((await db.query('SELECT paciente_id FROM agendamentos WHERE id = $1', [firstVisit.data.id])).rows[0].paciente_id, createdPatient.id);
+  assert.equal(Number((await db.query('SELECT COUNT(*) AS total FROM usuarios WHERE paciente_id = $1', [createdPatient.id])).rows[0].total), 0);
+  assert.equal(Number((await db.query('SELECT COUNT(*) AS total FROM aceites_privacidade_paciente WHERE paciente_id = $1', [createdPatient.id])).rows[0].total), 1);
+  // A return visit with a local phone format must reuse the same patient.
+  assert.equal((await newClientRequest({ ...newcomer, telefone: '(11) 98888-7777', hora: '16:00' })).status, 201);
+  // Legacy stored phones may include +55 too; comparison must work in both directions.
+  await db.query('UPDATE pacientes SET telefone = $1 WHERE id = $2', ['+55 (11) 98888-7777', createdPatient.id]);
+  assert.equal((await newClientRequest({ ...newcomer, telefone: '11988887777', hora: '17:00' })).status, 201);
+  assert.equal(Number((await db.query('SELECT COUNT(*) AS total FROM pacientes WHERE cpf = $1', [newcomer.cpf])).rows[0].total), 1);
+  const differentPerson = await newClientRequest({ ...newcomer, nome: 'Outra Pessoa', hora: '11:00' });
+  assert.equal(differentPerson.status, 409);
+  assert.equal(differentPerson.data.codigo, 'DADOS_PACIENTE_DIVERGENTES');
+  assert.equal((await db.query('SELECT nome FROM pacientes WHERE id = $1', [createdPatient.id])).rows[0].nome, newcomer.nome);
+  const account = (await db.query("INSERT INTO usuarios (nome, email, senha_hash, perfil, paciente_id) VALUES ('Paciente Teste', 'paciente@example.invalid', 'hash', 'PACIENTE', $1) RETURNING id", [patient.id])).rows[0];
+  const patientCookie = 'sgcp_session=' + signToken(account.id, 3600);
+  assert.equal((await request('/api/dashboard', 'GET', null, patientCookie)).status, 403);
+  // Details are scoped to the patient; pending notifications require agenda permission.
+  assert.equal((await request('/api/agendamentos/' + id)).status, 401);
+  const detail = await request('/api/agendamentos/' + id, 'GET', null, cookie);
+  assert.equal(detail.status, 200);
+  assert.equal(detail.data.paciente_telefone, '11999999999');
+  assert.equal((await request('/api/agendamentos/' + id, 'GET', null, patientCookie)).status, 200);
+  assert.equal((await request('/api/agendamentos/' + firstVisit.data.id, 'GET', null, patientCookie)).status, 404);
+  assert.equal((await request('/api/agendamentos/999999999', 'GET', null, cookie)).status, 404);
+  assert.equal((await request('/api/agendamentos/invalido', 'GET', null, cookie)).status, 400);
+  assert.equal((await request('/api/agendamentos/pendencias')).status, 401);
+  assert.equal((await request('/api/agendamentos/pendencias', 'GET', null, patientCookie)).status, 403);
+  const agendaProfile = (await db.query("INSERT INTO perfis_acesso (nome, permissoes) VALUES ('Só agenda', '[\"agenda\"]') RETURNING id")).rows[0];
+  const staff = (await db.query("INSERT INTO usuarios (nome, email, senha_hash, perfil, perfil_acesso_id) VALUES ('Recepção', 'agenda@example.invalid', 'hash', 'RECEPCIONISTA', $1) RETURNING id", [agendaProfile.id])).rows[0];
+  const staffCookie = 'sgcp_session=' + signToken(staff.id, 3600);
+  assert.equal((await request('/api/dashboard', 'GET', null, staffCookie)).status, 403);
+  const pending = await request('/api/agendamentos/pendencias', 'GET', null, staffCookie);
+  assert.equal(pending.status, 200);
+  assert(pending.data.total >= 1);
+  assert(pending.data.consultas.every((item) => item.status === 'AGENDADO'));
+  const chronological = pending.data.consultas.map((item) => item.data + item.hora);
+  assert.deepEqual(chronological, [...chronological].sort());
+  assert.equal((await request('/api/agendamentos/' + corrected.data.id + '/status', 'PATCH', { status: 'CONFIRMADO' }, staffCookie)).status, 200);
+  const updatedPending = await request('/api/agendamentos/pendencias', 'GET', null, staffCookie);
+  assert.equal(updatedPending.data.total, pending.data.total - 1);
+  assert(!updatedPending.data.consultas.some((item) => item.id === corrected.data.id));
+  assert.equal((await request('/api/agendamentos/' + corrected.data.id, 'GET', null, staffCookie)).data.status, 'CONFIRMADO');
+  const nearAppointment = (await db.query("INSERT INTO agendamentos (paciente_id, procedimento_id, data_hora, duracao_prevista_min, status, origem, tipo) VALUES ($1, $2, (CURRENT_TIMESTAMP AT TIME ZONE 'America/Sao_Paulo') + INTERVAL '1 hour', 60, 'AGENDADO', 'ONLINE', 'CONSULTA') RETURNING id", [patient.id, procedure.id])).rows[0];
+  assert.equal((await request('/api/agendamentos/' + nearAppointment.id + '/cancelar', 'PATCH', {}, patientCookie)).status, 409);
+  assert.equal((await request('/api/agendamentos/' + nearAppointment.id + '/remarcar', 'PATCH', { procedimentoId: procedure.id, data, hora: '15:00' }, patientCookie)).status, 409);
+  const signup = { cpf: '12345678909', email: 'crianca@example.invalid', senha: 'senha-de-teste-123', faixaEtaria: 'MENOR', ...aceites };
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', signup)).status, 400);
+  const beforeSignup = Number((await db.query('SELECT COUNT(*) FROM usuarios')).rows[0].count);
+  for (const invalid of [
+    { aceitouTermos: false }, { aceitouTermos: 'true' }, { versaoTermos: 'antiga' },
+    { aceitouAvisoPrivacidade: false }, { faixaEtaria: undefined },
+    { responsavelVinculo: 'OUTRO' }, { responsavelCpf: signup.cpf }, { consentimentoResponsavel: 'true' },
+  ]) assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...signup, ...pais, ...invalid })).status, 400);
+  assert.equal(Number((await db.query('SELECT COUNT(*) FROM usuarios')).rows[0].count), beforeSignup);
+  const childAccount = await request('/api/auth/cadastro-paciente', 'POST', { ...signup, ...pais });
+  assert.equal(childAccount.status, 201);
+  const consent = (await db.query('SELECT * FROM consentimentos_responsaveis ORDER BY id DESC LIMIT 1')).rows[0];
+  assert.equal(consent.vinculo, 'MAE'); assert(consent.consentido_em); assert(consent.versao); assert(consent.finalidade);
+  const childPatient = (await db.query('SELECT * FROM pacientes WHERE cpf = $1', [signup.cpf])).rows[0];
+  assert.equal(childPatient.data_nascimento, null); assert.equal(childPatient.telefone, null); assert.equal(childPatient.endereco, null);
+  assert.equal(childPatient.cadastro_completo, false); assert.equal(childPatient.menor_declarado, true);
+  const terms = (await db.query('SELECT * FROM aceites_termos WHERE paciente_id = $1', [childPatient.id])).rows[0];
+  assert.equal(terms.versao, VERSAO_TERMOS); assert.equal(terms.origem, 'PORTAL'); assert(terms.aceito_em); assert.equal(String(terms.usuario_id), childAccount.data.usuario.id);
+  assert.equal((await request('/api/agendamentos', 'POST', { procedimentoId: procedure.id, data, hora: '08:00' }, childAccount.cookie)).status, 409);
+  assert.equal((await request('/api/auth/perfil', 'PUT', { nome: 'Crianca Portal', email: signup.email, nascimento: '2020-01-01' }, childAccount.cookie)).status, 400);
+  assert.equal((await request('/api/auth/perfil', 'PUT', { nome: 'Crianca Portal', email: signup.email, nascimento: '1990-01-01', ...pais }, childAccount.cookie)).status, 409);
+  assert.equal((await request('/api/auth/perfil', 'PUT', { nome: 'Crianca Portal', email: signup.email, nascimento: '2020-01-01', ...pais }, childAccount.cookie)).status, 200);
+  assert.equal((await request('/api/auth/login', 'POST', { identificador: '123.456.789-09', senha: signup.senha })).status, 200);
+  assert.equal((await request('/api/auth/login', 'POST', { identificador: signup.email.toUpperCase(), senha: signup.senha })).status, 200);
+  assert.equal((await request('/api/auth/login', 'POST', { identificador: signup.cpf, senha: 'incorreta' })).status, 401);
+  const adultSignup = { cpf: '16899535009', email: 'adulto@example.invalid', senha: signup.senha, faixaEtaria: 'ADULTO', ...aceites, nome: 'Dado extra ignorado', telefone: '11999999999', endereco: 'Nao armazenar', nascimento: '1990-01-01' };
+  const adultAccount = await request('/api/auth/cadastro-paciente', 'POST', adultSignup);
+  assert.equal(adultAccount.status, 201);
+  const adultPatient = (await db.query('SELECT * FROM pacientes WHERE cpf = $1', [adultSignup.cpf])).rows[0];
+  assert.equal(adultPatient.nome, 'Paciente'); assert.equal(adultPatient.data_nascimento, null); assert.equal(adultPatient.telefone, null); assert.equal(adultPatient.endereco, null);
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...adultSignup, email: 'outro@example.invalid' })).status, 409);
+  assert.equal((await request('/api/auth/descadastro', 'POST', {}, cookie)).status, 403);
+  assert.equal((await request('/api/auth/descadastro', 'POST', {}, childAccount.cookie)).status, 204);
+  assert.equal((await request('/api/auth/me', 'GET', null, childAccount.cookie)).status, 401);
+  assert.equal((await request('/api/auth/login', 'POST', { identificador: signup.cpf, senha: signup.senha })).status, 401);
+  assert((await db.query('SELECT descadastrado_em FROM usuarios WHERE id = $1', [childAccount.data.usuario.id])).rows[0].descadastrado_em);
+  assert.equal(Number((await db.query('SELECT COUNT(*) FROM aceites_termos WHERE paciente_id = $1', [childPatient.id])).rows[0].count), 1);
+  // Existing clinical records require a single-use invitation issued by the owner.
+  const invitePatient = (await db.query('SELECT id FROM pacientes WHERE cpf = $1', [guest.cpf])).rows[0];
+  const inviteRoute = '/api/pacientes/' + invitePatient.id + '/convite-portal';
+  assert.equal((await request(inviteRoute, 'POST', {})).status, 401);
+  assert.equal((await request(inviteRoute, 'POST', {}, patientCookie)).status, 403);
+  assert.equal((await request(inviteRoute, 'POST', {}, staffCookie)).status, 403);
+  const oldInvite = await request(inviteRoute, 'POST', {}, cookie);
+  const newInvite = await request(inviteRoute, 'POST', {}, cookie);
+  assert.equal(newInvite.status, 201); assert(newInvite.data.expiraEm);
+  assert.notEqual(oldInvite.data.token, newInvite.data.token);
+  const invitedSignup = { ...signup, cpf: guest.cpf, email: 'convite@example.invalid', ...pais, convite: newInvite.data.token };
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...invitedSignup, convite: oldInvite.data.token })).status, 409);
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...invitedSignup, faixaEtaria: 'ADULTO' })).status, 400);
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...invitedSignup, aceitouTermos: false })).status, 400);
+  await db.query("UPDATE convites_portal SET expira_em = CURRENT_TIMESTAMP - INTERVAL '1 second' WHERE paciente_id = $1", [invitePatient.id]);
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', invitedSignup)).status, 409);
+  const validInvite = await request(inviteRoute, 'POST', {}, cookie);
+  const linked = await request('/api/auth/cadastro-paciente', 'POST', { ...invitedSignup, convite: validInvite.data.token });
+  assert.equal(linked.status, 201); assert.equal(linked.data.usuario.pacienteId, String(invitePatient.id));
+  assert.equal((await db.query('SELECT nome FROM pacientes WHERE id = $1', [invitePatient.id])).rows[0].nome, guest.nome);
+  assert((await db.query('SELECT usado_em FROM convites_portal WHERE paciente_id = $1', [invitePatient.id])).rows[0].usado_em);
+  assert.equal((await request('/api/auth/cadastro-paciente', 'POST', { ...invitedSignup, email: 'reuso@example.invalid', convite: validInvite.data.token })).status, 409);
+  assert.equal((await request(inviteRoute, 'POST', {}, cookie)).status, 409);
+  assert.equal((await request('/api/auth/perfil', 'PUT', { nome: 'Paciente Teste', email: 'paciente@example.invalid', telefone: '11999999999', nascimento: '2020-01-01' }, patientCookie)).status, 400);
+  assert.equal((await request('/api/auth/descadastro', 'POST', {}, patientCookie)).status, 204);
+  assert.equal((await request('/api/auth/me', 'GET', null, patientCookie)).status, 401);
+  assert.equal((await request('/api/catalogo')).status, 200);
+  if (process.argv.includes('--browser')) await require('./verify-browser.cjs')({ url, cookie, patientCookie: adultAccount.cookie });
+  console.log('OK: termos versionados, dados mínimos, login por e-mail/CPF, autorização dos pais, convite único/expirável, descadastro, 404, agenda, concorrência, cadastro público, telefone com/sem +55 e permissões.');
+}
+main().catch((error) => { console.error(error); process.exitCode = 1; }).finally(async () => {
+  if (server) await new Promise((resolve) => server.close(resolve));
+  if (db) await db.end();
+  if (/^sgcp_verify_\d+$/.test(database)) await admin.query('DROP DATABASE IF EXISTS ' + database);
+  await admin.end();
+});

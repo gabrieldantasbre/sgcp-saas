@@ -1,0 +1,17 @@
+ALTER TABLE produtos
+  ADD COLUMN IF NOT EXISTS descricao_catalogo TEXT,
+  ADD COLUMN IF NOT EXISTS preco_catalogo NUMERIC(10,2) CHECK (preco_catalogo IS NULL OR preco_catalogo >= 0),
+  ADD COLUMN IF NOT EXISTS exibir_catalogo BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE TABLE IF NOT EXISTS logs_sistema (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  usuario_id BIGINT REFERENCES usuarios(id) ON DELETE SET NULL,
+  usuario_nome VARCHAR(120),
+  acao VARCHAR(200) NOT NULL,
+  metodo VARCHAR(10) NOT NULL,
+  rota VARCHAR(200) NOT NULL,
+  status_http SMALLINT NOT NULL,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS ix_logs_sistema_criado_em ON logs_sistema (criado_em DESC);
